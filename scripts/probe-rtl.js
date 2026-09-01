@@ -1,9 +1,9 @@
 /**
  * probe-rtl.js — Arabic / RTL interface probe
  *
- * Catches the class of defect that no mainstream accessibility tool looks for,
- * because axe, Lighthouse and friends were built around English. Every check
- * here comes from a bug that ships regularly in real Arabic products:
+ * Catches a class of defect that axe and Lighthouse do not check for, because
+ * they were built around English. Every check here comes from a bug that ships
+ * regularly in real Arabic products:
  * an English `{count} {noun}` template applied to a language with six plural
  * forms, letter-spacing that severs a cursive script, three numeral systems on
  * one screen, a dialect mismatch that makes a product feel foreign to its own

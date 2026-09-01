@@ -35,8 +35,8 @@ head/SEO tags, layout overflow, navigation timing.
 40 font sizes does not have a type scale, whatever the design file says),
 interaction-state coverage read from the stylesheets, and microcopy presence.
 
-**Semantic**, via a guided reading pass — the defects no automated tool detects
-because they require understanding what the words mean:
+**Semantic**, via a guided reading pass — defects that pass automated checking
+because they are structurally valid and only wrong in meaning:
 
 - placeholder copy shipped to production (`"traditional description for the premium plan"`, and lorem ipsum in the other locale)
 - marketing claims the product cannot fulfil (a template's "live instructor sessions" on a product with no instructors)
@@ -66,7 +66,8 @@ values that must match across languages, `hreflang` on both sides, whether the
 language switcher preserves the current route — and near-duplicate product
 names, which is how a one-character split like Limo/Lemo gets caught.
 
-*Arabic / RTL*, the part with no equivalent elsewhere:
+*Arabic / RTL*, the part that goes furthest beyond what general-purpose
+tooling checks:
 
 | Check | Catches |
 |---|---|
