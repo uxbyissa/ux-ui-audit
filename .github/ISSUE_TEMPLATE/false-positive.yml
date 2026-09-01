@@ -1,0 +1,29 @@
+name: False positive
+description: A probe reported something that is not a defect
+labels: ["false-positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        False positives are the most damaging bug class here. A probe that cries
+        wolf gets ignored, and then the real findings go unread too. These are
+        treated as high priority.
+  - type: input
+    attributes: { label: Which probe, placeholder: "probe-rtl.js" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Which field, placeholder: "pluralCandidates" }
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      label: What it reported
+      description: Paste the JSON entry, not a screenshot.
+      render: json
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      label: Why it is not a defect
+      description: For language findings, explain what the text actually means.
+    validations: { required: true }
+  - type: input
+    attributes: { label: Page language and direction, placeholder: "ar / rtl" }

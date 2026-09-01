@@ -1,5 +1,6 @@
 # ux-ui-audit
 
+[![probes](https://github.com/uxbyissa/ux-ui-audit/actions/workflows/probes.yml/badge.svg)](https://github.com/uxbyissa/ux-ui-audit/actions/workflows/probes.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3b82f6.svg)](LICENSE)
 [![Probes](https://img.shields.io/badge/probes-8-22c55e.svg)](scripts/)
 [![WCAG](https://img.shields.io/badge/WCAG-2.2-8b5cf6.svg)](references/wcag-thresholds.md)
@@ -73,6 +74,45 @@ names, which is how a one-character split like Limo/Lemo gets caught.
 | Physical CSS | `margin-left` where `margin-inline-start` was meant |
 | Truncation | End-ellipsis hiding a filename's extension and title |
 | Untranslated strings | Latin text left on an `ar` route |
+
+## Use it without Claude
+
+The probes are plain JavaScript with no dependencies, no build step and no
+imports. Each file is a single expression that returns a JSON string, so the
+fastest way to use one is to paste it into DevTools.
+
+1. Open the page you want to measure.
+2. Open DevTools (`F12` or `Cmd+Opt+I`) and go to **Console**.
+3. Paste the entire contents of a probe file and press Enter.
+4. The JSON is the return value. `copy($_)` puts it on your clipboard.
+
+```js
+// paste scripts/probe-core.js, then:
+copy($_)          // Chrome / Edge — copies the last result
+```
+
+Console paste is the reliable method: it is not affected by a site's Content
+Security Policy, has no size limit, and works on any page you can open.
+
+**Bookmarklet** — convenient, but it fetches over the network, so a site with a
+strict `script-src` or `connect-src` policy will block it. Console paste always
+works; reach for this only when it does not matter.
+
+```js
+javascript:(async()=>{const p=prompt('probe: core, heuristics, perception, rtl, ltr, parity, focus, routes','core');if(!p)return;const u=`https://cdn.jsdelivr.net/gh/uxbyissa/ux-ui-audit@v1.0.0/scripts/probe-${p}.js`;try{const r=await fetch(u);const t=await r.text();const out=await eval(t);console.log(out);const w=window.open('','_blank');if(w)w.document.write('<pre style="font:12px ui-monospace;white-space:pre-wrap">'+out.replace(/</g,'&lt;')+'</pre>');}catch(e){console.error('Blocked, most likely by this page CSP. Paste the probe into the console instead.',e);}})()
+```
+
+`probe-focus.js` needs a real Tab keypress before you run it — click into the
+page, press Tab, then paste. `probe-parity.js` is run once per locale and the
+two outputs compared by hand.
+
+### What you get without the skill
+
+The probes are the measurement layer. Run them yourself and you get the numbers,
+which is most of the value on a single page. What the skill adds around them is
+the pass order, the reading pass for defects no probe can see, the reproduction
+protocol for intermittent failures, and the report structure that turns a pile
+of JSON into something a team will act on.
 
 ## Why not axe or Lighthouse
 

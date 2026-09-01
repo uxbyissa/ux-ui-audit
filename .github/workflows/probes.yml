@@ -1,0 +1,51 @@
+name: probes
+
+on:
+  push:
+    paths: ['scripts/**', '.github/workflows/probes.yml']
+  pull_request:
+    paths: ['scripts/**']
+  workflow_dispatch:
+
+jobs:
+  parse:
+    name: probes parse and self-describe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      # A probe that does not parse is worse than a missing probe: it fails at
+      # injection time, mid-audit, after the reviewer has already trusted it.
+      - name: Every probe parses
+        run: |
+          for f in scripts/*.js; do
+            node --check "$f" || { echo "::error file=$f::syntax error"; exit 1; }
+            echo "ok  $f"
+          done
+
+      # Each probe must be a single expression whose value is the result, so it
+      # can be pasted into a console or injected verbatim by an automation tool.
+      - name: Every probe is a single returning expression
+        run: |
+          fail=0
+          for f in scripts/*.js; do
+            tail_c=$(tr -d '[:space:]' < "$f" | tail -c 4)
+            case "$tail_c" in
+              *')();'|*')()') echo "ok  $f" ;;
+              *) echo "::error file=$f::does not end in an invoked expression — got '$tail_c'"; fail=1 ;;
+            esac
+          done
+          exit $fail
+
+      - name: Every probe documents itself
+        run: |
+          fail=0
+          for f in scripts/*.js; do
+            head -3 "$f" | grep -q "$(basename "$f")" \
+              || { echo "::error file=$f::missing header comment naming the file"; fail=1; }
+            grep -q "Returns a JSON string" "$f" \
+              || { echo "::error file=$f::missing the 'Returns a JSON string' contract line"; fail=1; }
+          done
+          exit $fail

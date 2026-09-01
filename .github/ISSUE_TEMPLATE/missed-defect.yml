@@ -1,0 +1,19 @@
+name: Missed defect
+description: A real defect the probes did not catch
+labels: ["missed-defect"]
+body:
+  - type: textarea
+    attributes:
+      label: The defect
+      description: What is wrong, and how would a user notice it?
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      label: How it is detectable
+      description: |
+        The useful part. Is it visible in the DOM, in computed styles, in the
+        stylesheets — or does it need a screenshot or a human reading the copy?
+        A criterion with no measurement method cannot become a probe check.
+    validations: { required: true }
+  - type: input
+    attributes: { label: Which probe should own it, placeholder: "probe-perception.js, or a new one" }
