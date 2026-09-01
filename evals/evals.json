@@ -1,0 +1,73 @@
+{
+  "skill_name": "ux-ui-audit",
+  "notes": "Run each prompt with and without the skill. The skill's value shows up as evidence density: how many findings carry a number or a quote, and whether the semantic and RTL defects are found at all. A baseline run typically produces plausible-sounding advice with no measurements.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "arabic-rtl-localisation-review",
+      "prompt": "راجع النسخة العربية من هذه الصفحة ولاقي مشاكل الترجمة والاتجاه: <URL>. بدي تقرير فيه أدلة، مش انطباعات.",
+      "expected_output": "Report naming specific Arabic defects with the rendered string quoted — broken plural agreement, mixed numeral systems, register or gender inconsistency, RTL layout or bidi issues — each with the offending text and a concrete fix.",
+      "files": [],
+      "assertions": [
+        { "text": "Quotes at least one rendered Arabic string verbatim as evidence" },
+        { "text": "Identifies at least one plural-agreement defect and names the correct Arabic form" },
+        { "text": "Reports whether numeral systems are mixed, with counts or samples from both" },
+        { "text": "Recommends Intl.PluralRules or Intl.NumberFormat rather than a hand-written special case" },
+        { "text": "Does not report a dialect marker found only in user-generated content as a copy defect" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "general-accessibility-audit",
+      "prompt": "run an accessibility audit on <URL> — we need to know what would actually fail an audit, with the numbers, not a generic checklist",
+      "expected_output": "Findings citing specific WCAG success criteria with measured values: contrast ratios against the required threshold, tap-target dimensions, focus-ring contrast, unnamed or mis-named controls.",
+      "files": [],
+      "assertions": [
+        { "text": "Cites at least two specific WCAG success criterion numbers (e.g. 1.4.11, 2.5.8, 4.1.2)" },
+        { "text": "Reports at least one measured contrast ratio with both the value and the required threshold" },
+        { "text": "Reports tap-target sizes in pixels where any control is undersized" },
+        { "text": "Measures the focus indicator only after a real Tab keypress, not a programmatic focus call" },
+        { "text": "States explicitly what was not covered (screen reader, zoom reflow, high contrast mode)" }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "pricing-page-copy-defects",
+      "prompt": "here's our pricing page <URL> — does anything look off to you before we launch?",
+      "expected_output": "Catches meaning-level defects that no automated tool reports: placeholder copy still in place, feature claims that do not match the product, contradictions between tiers, and a primary CTA weaker than an inert control.",
+      "files": [],
+      "assertions": [
+        { "text": "Quotes any placeholder or template copy found, verbatim" },
+        { "text": "Cross-checks advertised features against what the product actually does, and flags mismatches" },
+        { "text": "Flags contradictions between tiers (e.g. a costlier plan advertising a lower limit)" },
+        { "text": "Compares the visual weight of the purchase CTA against other controls using computed styles" },
+        { "text": "Ranks commercial-risk findings above cosmetic ones" }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "intermittent-defect-honesty",
+      "prompt": "our landing page sometimes bounces people to the login screen and sometimes doesn't. can you look into it and tell us what's happening? <URL>",
+      "expected_output": "Tests repeatedly, reports every attempt including the passing ones, and characterises the defect as non-deterministic rather than asserting it always or never happens.",
+      "files": [],
+      "assertions": [
+        { "text": "Tests the behaviour at least four times" },
+        { "text": "Reports the outcome of every attempt, including attempts where the bug did not reproduce" },
+        { "text": "Describes the defect as intermittent or a race rather than stating it as always occurring" },
+        { "text": "Checks whether the failure surfaces any error to the user, and flags a missing error boundary if not" }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "should-not-overreach",
+      "prompt": "can you make the buttons on our homepage look nicer? <URL>",
+      "expected_output": "This is a design request, not an audit request. The skill may inform the answer, but the response should address what was asked rather than delivering an unrequested full audit report.",
+      "files": [],
+      "assertions": [
+        { "text": "Answers the actual question about button styling" },
+        { "text": "Does not produce a full multi-section audit report that was not requested" },
+        { "text": "If it surfaces audit findings, keeps them brief and offers the full audit rather than performing it unasked" }
+      ]
+    }
+  ]
+}
