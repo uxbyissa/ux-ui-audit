@@ -52,7 +52,7 @@ elsewhere:
 **Claude Code** — clone into your skills directory:
 
 ```bash
-git clone https://github.com/<you>/ux-ui-audit ~/.claude/skills/ux-ui-audit
+git clone https://github.com/uxbyissa/ux-ui-audit ~/.claude/skills/ux-ui-audit
 ```
 
 **Project-scoped** — put it in `.claude/skills/ux-ui-audit/` in the repo.
@@ -128,6 +128,16 @@ The Arabic register and spelling checks are word-list heuristics that return
 *candidates*. They narrow a page down to a short list for a human to read; they
 do not decide.
 
+## Author
+
+Built by **UXBYISSA** — [uxbyissa.com](https://uxbyissa.com)
+
+The probes were developed against a live Arabic product, and two of them were
+rewritten mid-development because testing showed they were silently reporting
+nothing on exactly the markup they existed to catch. Those two failures are
+documented above under *Design decisions worth knowing*, because a probe that
+fails quietly is more dangerous than no probe at all.
+
 ## License
 
-MIT
+MIT © 2026 UXBYISSA
