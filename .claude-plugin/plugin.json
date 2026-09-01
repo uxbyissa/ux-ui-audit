@@ -1,0 +1,16 @@
+{
+  "name": "ux-ui-audit",
+  "version": "1.0.0",
+  "description": "Evidence-backed UX/UI and accessibility audit. Browser probes measure WCAG contrast, tap targets, focus-ring contrast, Hick and Fitts indices, design-system conformance and Gestalt geometry, plus RTL/Arabic and LTR localisation engines and a cross-locale parity pass.",
+  "author": {
+    "name": "UXBYISSA",
+    "url": "https://uxbyissa.com"
+  },
+  "homepage": "https://github.com/uxbyissa/ux-ui-audit",
+  "repository": "https://github.com/uxbyissa/ux-ui-audit",
+  "license": "MIT",
+  "keywords": [
+    "ux", "ui", "accessibility", "wcag", "audit", "design-review",
+    "i18n", "rtl", "arabic", "localization", "heuristic-evaluation"
+  ]
+}
