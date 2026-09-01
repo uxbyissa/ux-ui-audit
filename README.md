@@ -114,6 +114,79 @@ the pass order, the reading pass for defects no probe can see, the reproduction
 protocol for intermittent failures, and the report structure that turns a pile
 of JSON into something a team will act on.
 
+## Cost and model choice
+
+### What it loads
+
+Skills load in three stages, so the full repository is never in context at once.
+
+| Stage | What loads | ~tokens |
+|---|---|---|
+| Always | the skill description only | **390** |
+| On trigger | `SKILL.md` body | **3,900** |
+| On demand | one probe, when read | 1,300 – 5,200 |
+| On demand | one reference, when read | 1,500 – 2,900 |
+| Everything at once | all 8 probes + all 6 references | 43,900 |
+
+The last row never happens in practice. A typical audit reads three or four
+probes and at most one reference.
+
+| Probe | ~tokens | | Reference | ~tokens |
+|---|---|---|---|---|
+| `probe-routes.js` | 1,300 | | `report-template.md` | 1,500 |
+| `probe-focus.js` | 1,500 | | `wcag-thresholds.md` | 1,700 |
+| `probe-parity.js` | 2,200 | | `foundations.md` | 1,800 |
+| `probe-ltr.js` | 3,800 | | `evaluation-matrix.md` | 1,900 |
+| `probe-perception.js` | 4,100 | | `arabic-rtl.md` | 2,800 |
+| `probe-core.js` | 4,400 | | `reading-list.md` | 2,900 |
+| `probe-heuristics.js` | 4,400 | | | |
+| `probe-rtl.js` | 5,200 | | | |
+
+`probe-rtl.js` is the largest despite not being the longest file: its Arabic
+word lists tokenise at roughly 2.3 characters per token against 3.7 for the
+surrounding code, because Arabic sits outside the merges the tokeniser was
+optimised on. That ratio is worth knowing generally — Arabic content costs
+roughly 1.6× what the same character count costs in English.
+
+**These are estimates**, derived from character counts at 3.7 chars/token for
+code, 3.9 for English prose and 2.3 for Arabic. For exact figures use the
+Anthropic token-counting endpoint (`messages.count_tokens`) against the files
+you actually load. Every other number in this repository is measured; these
+are not, and saying so is cheaper than being wrong about it.
+
+### Roughly what one audit costs
+
+A single-page audit — probes, a screenshot, the reading pass, and a written
+report — lands around 30–45K input and 4–6K output tokens once probe results,
+page text and images are counted. A thorough multi-page audit across two
+locales runs several hundred thousand input tokens, most of it probe output
+and page content rather than the skill itself.
+
+### Which model
+
+The measurement layer needs no model at all. The probes are plain JavaScript —
+paste them into DevTools and the numbers cost nothing. What a model does is
+everything around them.
+
+- **Opus 5** (`claude-opus-5`) — the default, and the right one for a real
+  audit. The reading pass is where this skill earns its keep, and it is
+  entirely judgment: noticing that a premium tier promises instructor sessions
+  for a product with no instructors, that an assistant is called two different
+  things on one page, that a register shift mid-screen reads as three people's
+  work. Arabic dialect and orthography judgement lands here too. This is not
+  pattern-matching, and weaker models produce a confident, plausible report
+  that misses exactly the findings worth paying for.
+- **Sonnet 5** (`claude-sonnet-5`) — a reasonable trade when you mainly want
+  the measured layer and a light write-up. It runs the probes and reads the
+  JSON fine. Expect the semantic findings to thin out.
+- **Haiku 4.5** (`claude-haiku-4-5`) — fine for mechanical passes: running a
+  probe on a list of routes and collecting output. Do not ask it for the
+  reading pass or the report.
+
+The split is worth stating plainly, because it is also the honest limit of the
+skill: **anyone can run the probes; the model is what turns their output into
+findings.**
+
 ## Why not axe or Lighthouse
 
 Use them. They are excellent at what they cover, this skill does not replace
