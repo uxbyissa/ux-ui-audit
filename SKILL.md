@@ -70,12 +70,19 @@ aimed at pages you already know are interesting.
 1. **Route sweep** — `probe-routes.js` on the main navigation surface. Gives you
    the app's map, plus dead links and mislabelled destinations for free.
 2. **Structural probe** — `probe-core.js` on every significant page.
-3. **RTL probe** — `probe-rtl.js` on every Arabic or RTL page. Skip for LTR-only
+3. **Heuristics probe** — `probe-heuristics.js` on the primary task screens.
+   Run it at the viewport the product is actually used at: Fitts distances and
+   first-screen counts are viewport-dependent, so a mobile-first product
+   measured at desktop width gives numbers that describe nobody.
+4. **RTL probe** — `probe-rtl.js` on every Arabic or RTL page. Skip for LTR-only
    products.
-4. **Focus probe** — press Tab, then `probe-focus.js`. Repeat across control
+5. **Focus probe** — press Tab, then `probe-focus.js`. Repeat across control
    types; focus styles are usually per-component.
-5. **Reading pass** — the protocol below.
-6. **Reproduction** — re-test anything that looked intermittent.
+6. **Screenshot pass** — capture each key viewport. Gestalt grouping, scan path,
+   whether emphasis matches task priority, and first aesthetic impression
+   cannot be derived from the DOM; assess them here, and say that you did.
+7. **Reading pass** — the protocol below.
+8. **Reproduction** — re-test anything that looked intermittent.
 
 ### Running the probes
 
@@ -85,6 +92,9 @@ string.
 
 - `scripts/probe-core.js` — contrast, tap targets, accessible names, duplicate
   destinations, head/SEO, heading outline, forms, layout overflow, performance
+- `scripts/probe-heuristics.js` — Hick's Law and cognitive load, Fitts's Law
+  and reachability, design-system conformance, interaction-state coverage,
+  microcopy and error tolerance, the structural half of visual hierarchy
 - `scripts/probe-rtl.js` — the Arabic/RTL engine
 - `scripts/probe-focus.js` — focus indicator; **requires a real Tab keypress
   first**, because programmatic `.focus()` does not trigger `:focus-visible` and
@@ -237,6 +247,19 @@ blurring the two costs you the benefit of both.
 `references/foundations.md` lists all of this in full, including what is
 deliberately out of scope. Read it before writing the method section of a
 report, and cite it when a reader asks where a finding comes from.
+
+`references/evaluation-matrix.md` maps each design-psychology criterion — Hick,
+Fitts, Gestalt, Norman's three levels, visual hierarchy, microcopy — to the
+layer that can actually measure it: DOM, screenshot, or human judgement.
+Consult it when deciding how to evidence a usability claim, and respect the
+layer assignment. Measuring a criterion the wrong way produces a number that
+looks rigorous and is not: a contrast ratio estimated from a screenshot is a
+guess wearing a decimal point, and no screenshot can show that a stylesheet
+defines no `:disabled` state at all.
+
+**Never reduce the matrix to a single score.** A composite hides which axis
+failed and invites optimising the metric instead of the product. Report per
+axis, and let the fix ordering carry the priority.
 
 **If the project has its own standards, they win.** A house design system,
 content style guide or Arabic terminology guide takes precedence over

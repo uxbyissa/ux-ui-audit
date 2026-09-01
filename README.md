@@ -21,6 +21,13 @@ spec formula, tap-target geometry, focus-ring contrast, accessible-name
 resolution, duplicate link destinations, route health, heading outline,
 head/SEO tags, layout overflow, navigation timing.
 
+**Design psychology, as arithmetic rather than impression** — Hick's Law
+(`log2(n+1)` over the choices actually on screen), Fitts's Law
+(`log2(D/W + 1)` measured from thumb rest on touch), design-system conformance
+(distinct rendered values for type, spacing, radius and colour — a product with
+40 font sizes does not have a type scale, whatever the design file says),
+interaction-state coverage read from the stylesheets, and microcopy presence.
+
 **Semantic**, via a guided reading pass — the defects no automated tool detects
 because they require understanding what the words mean:
 
@@ -80,11 +87,14 @@ ux-ui-audit/
 ├── SKILL.md                      audit method, pass order, report format
 ├── scripts/
 │   ├── probe-core.js             contrast, targets, names, structure, SEO, perf
+│   ├── probe-heuristics.js       Hick, Fitts, design-system conformance,
+│   │                             interaction states, microcopy, hierarchy
 │   ├── probe-rtl.js              the Arabic / RTL engine
 │   ├── probe-focus.js            focus indicator (needs a real Tab keypress)
 │   └── probe-routes.js           destination sweep and label/href mismatches
 └── references/
     ├── foundations.md            standards, heuristics, house conventions, scope
+    ├── evaluation-matrix.md      criteria → reference → how each is measured
     ├── arabic-rtl.md             plural forms, registers, bidi, RTL typography
     ├── wcag-thresholds.md        criteria, numbers, probe field mapping
     └── report-template.md        a full worked report
@@ -125,6 +135,32 @@ Full detail, including what is deliberately out of scope, in
 guide or Arabic terminology guide into `references/` and the audit judges
 against yours first, falling back to the above only for what yours does not
 cover.
+
+## Three measurement layers
+
+Every criterion is assigned to exactly one layer, because a criterion measured
+the wrong way produces a number that looks rigorous and is not.
+
+**Layer 1 — DOM measurement.** Deterministic and exact. Contrast, hit areas,
+choice counts, every CSS state rule, token conformance. Anything that can live
+here should.
+
+**Layer 2 — Vision.** A screenshot. Reserved for what genuinely cannot be
+derived from structure: where the eye lands, Gestalt grouping, first aesthetic
+impression.
+
+**Layer 3 — Human judgement.** Trust, professionalism, learnability. Reported
+as reasoned opinion, labelled as such.
+
+The ordering is the design decision. Screenshot-first analysis forfeits
+precision on every row that could have produced a number — a contrast ratio
+estimated from an image is a guess wearing a decimal point. And one row cannot
+be done by vision at all: a static image captures a single state, so it can
+never show that a stylesheet defines no `:disabled` rule or no `:active`
+feedback anywhere in the product. Reading the stylesheets answers that exactly.
+
+Full mapping of criteria to layers, with sources, in
+[`references/evaluation-matrix.md`](references/evaluation-matrix.md).
 
 ## Design decisions worth knowing
 
