@@ -84,6 +84,7 @@ ux-ui-audit/
 │   ├── probe-focus.js            focus indicator (needs a real Tab keypress)
 │   └── probe-routes.js           destination sweep and label/href mismatches
 └── references/
+    ├── foundations.md            standards, heuristics, house conventions, scope
     ├── arabic-rtl.md             plural forms, registers, bidi, RTL typography
     ├── wcag-thresholds.md        criteria, numbers, probe field mapping
     └── report-template.md        a full worked report
@@ -91,6 +92,39 @@ ux-ui-audit/
 
 The probes are plain JavaScript with no dependencies. They run in a console as
 readily as through an automation tool, so they are useful on their own.
+
+## What the findings rest on
+
+An audit is only as good as its checkability. Every finding here is traceable
+to one of three things, and the report says which — because a cited standard
+and a reasoned argument carry different weight, and conflating them wastes both.
+
+**Standards, cited by number.** WCAG 2.2 for accessibility, with the measured
+value and the threshold. WAI-ARIA 1.2 and the ARIA Authoring Practices Guide
+for widget patterns. Accessible Name and Description Computation 1.2 for how
+names resolve. Unicode UAX #9 for bidi. Unicode CLDR plural rules and ECMA-402
+for internationalisation. CSS Logical Properties Level 1 for RTL layout.
+Contrast is computed from the WCAG luminance formula in the probe source, not
+delegated to a library, so the arithmetic is auditable.
+
+**Heuristics, argued rather than asserted.** Nielsen's ten usability heuristics
+frame the non-accessibility findings — visibility of system status, consistency
+and standards, error prevention, recognition over recall. No pass/fail numbers,
+so these findings have to reason their consequence.
+
+**House conventions, labelled as such.** The severity model, the impact ÷
+effort ordering, the four-attempt protocol for intermittent defects, and the
+Arabic register and spelling word lists are this skill's own judgment. No
+standards body backs them. The word lists in particular return *candidates* for
+a human to read, and will misfire on user-generated content.
+
+Full detail, including what is deliberately out of scope, in
+[`references/foundations.md`](references/foundations.md).
+
+**Project standards take precedence.** Drop a design system, content style
+guide or Arabic terminology guide into `references/` and the audit judges
+against yours first, falling back to the above only for what yours does not
+cover.
 
 ## Design decisions worth knowing
 

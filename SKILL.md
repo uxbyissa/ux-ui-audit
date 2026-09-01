@@ -216,8 +216,38 @@ re-litigating something already solved.
 while the inert one is filled" beats "have you considered the button
 hierarchy?". You did the work; state what you found.
 
+## What the findings rest on
+
+Say what a finding is grounded in, and be precise about which kind it is.
+Readers weigh a cited standard differently from a heuristic argument, and
+blurring the two costs you the benefit of both.
+
+- **Accessibility findings cite a success criterion** (WCAG 2.2) with the
+  measured value and the threshold. These are checkable against the source.
+- **Usability findings argue their case.** They rest on established heuristics
+  — Nielsen's ten are the usual frame — which have no pass/fail number, so the
+  consequence has to be reasoned rather than asserted.
+- **Internationalisation findings cite the relevant spec** where one exists:
+  CLDR plural rules, UAX #9 for bidi, ECMA-402 for the fix.
+- **Some conventions here are this skill's own**, not standards: the severity
+  model, the impact ÷ effort ordering, the four-attempt reproducibility
+  protocol, and the Arabic register and spelling word lists. Present those as
+  judgment, never as authority.
+
+`references/foundations.md` lists all of this in full, including what is
+deliberately out of scope. Read it before writing the method section of a
+report, and cite it when a reader asks where a finding comes from.
+
+**If the project has its own standards, they win.** A house design system,
+content style guide or Arabic terminology guide takes precedence over
+everything above — look for one before starting, and say in the report which
+standard each finding was judged against.
+
 ## Reference material
 
+- `references/foundations.md` — the standards, heuristics and house conventions
+  behind the findings, and the scope limits. Read when writing a report's
+  method section or when a finding's basis is questioned.
 - `references/arabic-rtl.md` — the linguistic and typographic rules behind the
   RTL probe: plural forms, numeral conventions, register, bidi, type. Read it
   when auditing an Arabic product or when interpreting `probe-rtl.js` output.
