@@ -95,6 +95,19 @@
   );
   const toInt = (s) => parseInt(s.replace(/[٠-٩]/g, (d) => d.charCodeAt(0) - 0x0660), 10);
 
+  // A numeral followed by a month name is a date, not a counted noun: "١ سبتمبر"
+  // is correct Arabic and must not be reported as broken plural agreement.
+  // Both naming systems are listed — Gulf/Egyptian and Levantine/Iraqi — plus
+  // the time units that appear in the same position.
+  const DATE_WORDS = new Set([
+    "يناير","فبراير","مارس","أبريل","ابريل","مايو","يونيو","يوليو","أغسطس","اغسطس",
+    "سبتمبر","أكتوبر","اكتوبر","نوفمبر","ديسمبر",
+    "كانون","شباط","آذار","اذار","نيسان","أيار","ايار","حزيران","تموز","آب","اب","أيلول","ايلول","تشرين",
+    "محرم","صفر","ربيع","جمادى","رجب","شعبان","رمضان","شوال","ذو",
+    "السبت","الأحد","الاثنين","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة",
+    "صباحاً","مساءً","ص","م",
+  ]);
+
   // Keyed on numeral + first noun word, keeping the shortest rendering. The
   // group pass reads across sibling elements, so the same defect surfaces both
   // as "1 كتب" and as "1 كتب الرئيسية" where the next element's text runs on.
@@ -111,6 +124,7 @@
       // numeral is almost always a template that forgot the language.
       if (!(definite || count === 1 || count === 2 || count === 0)) continue;
       const firstWord = noun.split(/\s+/)[0];
+      if (DATE_WORDS.has(firstWord)) continue;   // "١ سبتمبر" is a date, not a count
       const key = count + "|" + firstWord;
       const snippet = m[0].trim();
       const prev = plByKey.get(key);
