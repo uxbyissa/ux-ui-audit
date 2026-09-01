@@ -149,10 +149,22 @@ optimised on. That ratio is worth knowing generally — Arabic content costs
 roughly 1.6× what the same character count costs in English.
 
 **These are estimates**, derived from character counts at 3.7 chars/token for
-code, 3.9 for English prose and 2.3 for Arabic. For exact figures use the
-Anthropic token-counting endpoint (`messages.count_tokens`) against the files
-you actually load. Every other number in this repository is measured; these
-are not, and saying so is cheaper than being wrong about it.
+code, 3.9 for English prose and 2.3 for Arabic. Every other number in this
+repository is measured; these are not, and saying so is cheaper than being
+wrong about it.
+
+Measure them yourself rather than trusting the table:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-... node scripts/count-tokens.mjs
+```
+
+No dependencies, Node 18+. It calls the token-counting endpoint for every file
+and prints measured counts plus a chars-per-token column, subtracting the
+message-wrapper overhead so each number is the file's own cost. Counting is a
+metering endpoint — it returns a count without generating anything, so a full
+run costs nothing beyond the requests. Add `--json` to pipe it somewhere, or
+`--model` to compare tokenisers across models.
 
 ### Roughly what one audit costs
 
