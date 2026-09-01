@@ -1,5 +1,11 @@
 # ux-ui-audit
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-3b82f6.svg)](LICENSE)
+[![Probes](https://img.shields.io/badge/probes-8-22c55e.svg)](scripts/)
+[![WCAG](https://img.shields.io/badge/WCAG-2.2-8b5cf6.svg)](references/wcag-thresholds.md)
+[![RTL + LTR](https://img.shields.io/badge/i18n-RTL%20%2B%20LTR-f59e0b.svg)](references/arabic-rtl.md)
+[![Dependencies](https://img.shields.io/badge/dependencies-none-64748b.svg)](scripts/)
+
 A [Claude](https://claude.com/claude-code) skill that audits a live web
 interface and produces a report where **every finding carries a measurement or
 a verbatim quote**.

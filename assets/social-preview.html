@@ -1,148 +1,204 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <title>ux-ui-audit — social preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Readex+Pro:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@600;700&display=swap">
 <style>
-  /* Render target: exactly 1280x640. Screenshot the .card element, or open at
-     a 1280x640 viewport and capture the full page. */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #05070B; }
-  body { display: grid; place-items: center; min-height: 100vh; }
+/* ─────────────────────────────────────────────────────────────
+   GitHub social preview — 1280 × 640
+   Editable source for the published card. Screenshot .card, or
+   open at a 1280×640 viewport and capture the full page.
 
-  .card {
-    width: 1280px; height: 640px;
-    position: relative; overflow: hidden;
-    background:
-      radial-gradient(120% 100% at 82% 8%, #171E2E 0%, #0B0E14 58%, #080A10 100%);
-    font-family: "Readex Pro", "Segoe UI", system-ui, sans-serif;
-    color: #E8ECF4;
-    padding: 52px 64px 46px;
-    display: flex; flex-direction: column;
-  }
+   The card is set almost entirely in English by choice. The one
+   Arabic string is not copy — it is the specimen the middle card
+   exists to show, the way a developer-tool card shows a code
+   snippet. Translating it would destroy the evidence.
 
-  /* engineering graph paper, not decoration */
-  .card::before {
-    content: ""; position: absolute; inset: 0;
-    background-image: radial-gradient(#9FB2D0 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: .04; pointer-events: none;
-  }
-  /* calibrated scale along the leading (right) edge */
-  .card::after {
-    content: ""; position: absolute; top: 0; right: 0; width: 3px; height: 100%;
-    background: repeating-linear-gradient(
-      to bottom, #4C7DFF 0 14px, transparent 14px 34px);
-    opacity: .28;
-  }
+   Every value shown is a real measurement. See examples/.
+   ───────────────────────────────────────────────────────────── */
 
-  .top { display: flex; justify-content: space-between; align-items: baseline; }
-  .kicker {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
-    color: #7A8699; direction: ltr;
-  }
-  .kicker b { color: #4C7DFF; font-weight: 500; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#05070B}
+body{display:grid;place-items:center;min-height:100vh}
 
-  .hero { margin-top: 40px; }
-  h1 {
-    font-size: 74px; font-weight: 700; line-height: 1.14;
-    letter-spacing: -.02em; text-wrap: balance;
-  }
-  .rule {
-    width: 132px; height: 3px; margin: 22px 0 20px;
-    background: linear-gradient(to left, #4C7DFF, rgba(76,125,255,0));
-  }
-  .sub { font-size: 25px; font-weight: 400; color: #98A4B8; line-height: 1.5; }
+.card{
+  width:1280px;height:640px;position:relative;overflow:hidden;
+  background:radial-gradient(130% 110% at 88% 4%,#141C2C 0%,#0A0D14 55%,#070910 100%);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  color:#E8ECF4;padding:34px 44px 26px;display:flex;flex-direction:column;
+}
+/* engineering graph paper */
+.card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(#9FB2D0 1px,transparent 1px);
+  background-size:26px 26px;opacity:.045;
+}
+/* calibrated scale, trailing edge */
+.ruler{position:absolute;top:0;right:26px;height:100%;width:26px;pointer-events:none}
+.ruler span{position:absolute;right:0;width:14px;height:1px;background:#2B3448}
+.ruler span:nth-child(odd){width:8px}
+.ruler b{position:absolute;right:0;top:0;bottom:0;width:1px;background:#1E2637}
 
-  .cards { display: flex; gap: 18px; margin-top: auto; align-items: stretch; }
+/* ── header ── */
+.brand{font-size:27px;font-weight:600;letter-spacing:.01em;color:#E8ECF4}
+.brand em{font-style:normal;color:#4C8DFF}
+.domain{margin-top:8px;font-size:15px;color:#7E8DA6}
+.tick{margin-top:12px;width:56px;height:3px;background:#2F6BFF;border-radius:2px}
 
-  .m {
-    flex: 1; background: #121826; border: 1px solid #232B3B; border-radius: 8px;
-    padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 9px;
-    position: relative;
-  }
-  .m.hero-card { flex: 1.28; background: #16203180; border-color: #2E3A50; }
+/* ── hero ── */
+.hero{text-align:center;margin-top:26px}
+h1{font-size:52px;font-weight:600;letter-spacing:-.005em;line-height:1.1}
+h1 em{font-style:normal;color:#35D07F}
+.hr{width:118px;height:1px;background:#39445C;margin:16px auto 14px}
+.sub{font-size:19px;color:#8E9CB4;letter-spacing:.01em}
 
-  .m .lbl {
-    font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
-    letter-spacing: .17em; text-transform: uppercase; color: #6E7A8D;
-    direction: ltr; text-align: right;
-  }
-  .m .val {
-    font-family: "IBM Plex Mono", monospace; font-size: 31px; font-weight: 500;
-    line-height: 1.1; direction: ltr; text-align: right;
-  }
-  .m .val.ar { font-family: "Readex Pro", sans-serif; direction: rtl; font-size: 27px; }
-  .fail { color: #FF6B5E; }
-  .pass { color: #4ADE80; }
+/* ── measurement strip + cards ── */
+.row{display:flex;align-items:stretch;gap:0;margin-top:26px;flex:1}
 
-  .m .note {
-    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: #79879C;
-    line-height: 1.5; direction: ltr; text-align: right; margin-top: auto;
-  }
-  .m .note.ar { font-family: "Readex Pro", sans-serif; direction: rtl; font-size: 13.5px; }
+.scale{
+  width:118px;border:1px solid #1E2637;border-radius:12px;
+  margin:6px -26px 34px 0;padding:16px 12px 16px 0;
+  display:flex;flex-direction:column;justify-content:space-between;
+  align-items:flex-end;position:relative;
+}
+.scale div{display:flex;align-items:center;gap:7px;font-size:13px;color:#5E6B83}
+.scale div i{width:12px;height:1px;background:#2B3448;display:block}
+.scale div.on{color:#35D07F}
+.scale div.on i{background:#35D07F;width:18px}
+.scale .cursor{
+  position:absolute;right:-9px;top:calc(40% - 5px);
+  border-left:8px solid #E8ECF4;border-top:5px solid transparent;border-bottom:5px solid transparent;
+}
 
-  /* the 2.96 vs 3.0 shortfall, drawn */
-  .gauge { height: 5px; background: #202839; border-radius: 3px; position: relative; }
-  .gauge i { position: absolute; inset: 0 auto 0 0; width: 88%; background: #FF6B5E; border-radius: 3px; }
-  .gauge b {
-    position: absolute; top: -4px; left: 0; width: 2px; height: 13px; background: #4ADE80;
-  }
+.cards{display:flex;gap:20px;flex:1;z-index:1}
 
-  .arrow { color: #4ADE80; font-family: "IBM Plex Mono", monospace; font-size: 20px; }
+.m{
+  flex:1;background:#0E141F;border:1px solid #1E2637;border-radius:12px;
+  padding:20px 22px 16px;display:flex;flex-direction:column;
+}
+.m.lead{border-color:#35D07F;background:#0C1420}
 
-  .foot {
-    margin-top: 26px; display: flex; justify-content: space-between; align-items: center;
-    font-family: "IBM Plex Mono", monospace; font-size: 14px; color: #6E7A8D; direction: ltr;
-  }
-  .foot .who { color: #98A4B8; letter-spacing: .14em; }
+.m .hd{display:flex;align-items:center;justify-content:space-between}
+.m .lbl{font-size:16px;font-weight:600;letter-spacing:.05em;color:#E8ECF4}
+.m .ic{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:19px;color:#4C8DFF}
+.m .dots{margin:12px 0 16px;height:1px;
+  background:repeating-linear-gradient(to right,#2B3448 0 2px,transparent 2px 6px)}
+
+.val{font-size:40px;font-weight:600;line-height:1.05;letter-spacing:-.01em}
+.fail{color:#FF5A5A}
+.pass{color:#35D07F}
+.val.ar{font-family:"IBM Plex Sans Arabic",sans-serif;direction:rtl;font-size:34px;text-align:center}
+.arrow{color:#FF5A5A;font-size:26px;text-align:center;margin:2px 0}
+
+/* the 2.96-against-3.0 shortfall, drawn */
+.gauge{margin:14px 0 8px;position:relative;height:26px}
+.gauge .line{position:absolute;top:9px;left:0;right:0;height:1px;background:#2B3448}
+.gauge .lit{position:absolute;top:9px;left:0;width:49%;height:1px;background:#FF5A5A}
+.gauge u{position:absolute;top:5px;width:1px;height:9px;background:#2B3448}
+.gauge .mk{position:absolute;top:2px;left:calc(49% - 5px);
+  border-top:7px solid #FF5A5A;border-left:5px solid transparent;border-right:5px solid transparent}
+.gauge .dot{position:absolute;top:6px;left:calc(62% - 4px);width:8px;height:8px;border-radius:50%;background:#35D07F}
+.gauge .sc{position:absolute;top:15px;left:0;right:0;display:flex;justify-content:space-between;
+  font-size:13px;color:#5E6B83}
+.gauge .sc b{font-weight:400}
+.gauge .sc b.on{color:#35D07F}
+
+.meta{font-size:16px;color:#93A2BA;line-height:1.7}
+.foot-rule{margin-top:auto;padding-top:12px;border-top:1px solid #1E2637}
+.verdict{display:flex;justify-content:flex-end;align-items:center;gap:8px;
+  font-size:16px;font-weight:500;color:#FF5A5A;letter-spacing:.06em}
+.claim{font-size:14px;color:#93A2BA;letter-spacing:.05em;margin-top:8px}
+
+/* ── footer ── */
+.foot{margin-top:18px;padding-top:16px;position:relative;
+  display:flex;align-items:center;gap:14px;font-size:19px;color:#C4CFE0}
+.foot::before{content:"";position:absolute;top:0;left:6px;right:6px;height:1px;background:#1E2637}
+.foot::after{content:"";position:absolute;top:-3px;left:0;width:7px;height:7px;
+  border:1px solid #39445C;border-radius:50%}
+.gh{width:26px;height:26px;fill:#E8ECF4}
 </style>
 </head>
 <body>
 <div class="card">
 
-  <div class="top">
-    <div class="kicker">UX / UI AUDIT · <b>CLAUDE SKILL</b></div>
-    <div class="kicker">RTL + LTR · WCAG 2.2</div>
+  <div class="ruler"><b></b>
+    <span style="top:6%"></span><span style="top:12%"></span><span style="top:18%"></span>
+    <span style="top:24%"></span><span style="top:30%"></span><span style="top:36%"></span>
+    <span style="top:42%"></span><span style="top:48%"></span><span style="top:54%"></span>
+    <span style="top:60%"></span><span style="top:66%"></span><span style="top:72%"></span>
+    <span style="top:78%"></span><span style="top:84%"></span><span style="top:90%"></span>
   </div>
+
+  <header>
+    <div class="brand"><em>UXBYISSA</em> / CLAUDE SKILL</div>
+    <div class="domain">uxbyissa.com</div>
+    <div class="tick"></div>
+  </header>
 
   <div class="hero">
-    <h1>تدقيق يقيس، لا يرتجل</h1>
-    <div class="rule"></div>
-    <div class="sub">كل ملاحظة تحمل رقماً مقاساً أو اقتباساً حرفياً</div>
+    <h1>AUDIT THAT <em>MEASURES</em>, NOT GUESSES</h1>
+    <div class="hr"></div>
+    <div class="sub">Every finding carries a number or an exact quote.</div>
   </div>
 
-  <div class="cards">
+  <div class="row">
 
-    <div class="m">
-      <div class="lbl">FOCUS RING · WCAG 1.4.11</div>
-      <div class="val fail">2.96 : 1</div>
-      <div class="gauge"><i></i><b style="left:calc(88% + 6px)"></b></div>
-      <div class="note">required 3 : 1 — fails by 0.04</div>
+    <div class="scale">
+      <div><span>5.0</span><i></i></div>
+      <div><span>4.0</span><i></i></div>
+      <div class="on"><span>3.0</span><i></i></div>
+      <div><span>2.0</span><i></i></div>
+      <div><span>1.0</span><i></i></div>
+      <div><span>0.0</span><i></i></div>
+      <div class="cursor"></div>
     </div>
 
-    <div class="m hero-card">
-      <div class="lbl">ARABIC PLURAL AGREEMENT</div>
-      <div class="val ar fail">١ المجلدات</div>
-      <div class="val ar pass" style="font-size:23px"><span class="arrow">→</span> مجلد واحد</div>
-      <div class="note">no mainstream tool checks this</div>
-    </div>
+    <div class="cards">
 
-    <div class="m">
-      <div class="lbl">PRESS FEEDBACK</div>
-      <div class="val fail">:active × 0</div>
-      <div class="note">zero rules across every<br>stylesheet — a screenshot<br>can never show this</div>
-    </div>
+      <div class="m">
+        <div class="hd"><div class="lbl">FOCUS RING</div></div>
+        <div class="dots"></div>
+        <div class="val fail">2.96 : 1</div>
+        <div class="gauge">
+          <div class="line"></div><div class="lit"></div>
+          <u style="left:0"></u><u style="left:25%"></u><u style="left:49%"></u>
+          <u style="left:62%"></u><u style="left:87%"></u><u style="right:0"></u>
+          <div class="mk"></div><div class="dot"></div>
+          <div class="sc"><b>1.0</b><b>2.0</b><b class="on">3.0</b><b>5.0</b></div>
+        </div>
+        <div class="meta">required 3 : 1<br>WCAG 1.4.11</div>
+        <div class="foot-rule"><div class="verdict">✕ FAIL</div></div>
+      </div>
 
+      <div class="m lead">
+        <div class="hd"><div class="lbl">ARABIC PLURAL</div><div class="ic">ع</div></div>
+        <div class="dots"></div>
+        <div class="val ar fail">1 المجلدات</div>
+        <div class="arrow">↓</div>
+        <div class="val ar pass">مجلد واحد</div>
+        <div class="foot-rule">
+          <div class="verdict">✕ FAIL</div>
+          <div class="claim">NO TOOL BUT THIS ONE CATCHES IT</div>
+        </div>
+      </div>
+
+      <div class="m">
+        <div class="hd"><div class="lbl">PRESS FEEDBACK</div></div>
+        <div class="dots"></div>
+        <div class="val fail">:active × 0</div>
+        <div class="meta" style="margin-top:14px">zero rules across<br>2 stylesheets</div>
+        <div class="foot-rule"><div class="verdict">✕ FAIL</div></div>
+      </div>
+
+    </div>
   </div>
 
   <div class="foot">
+    <svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
     <span>github.com/uxbyissa/ux-ui-audit</span>
-    <span class="who">UXBYISSA</span>
   </div>
 
 </div>
