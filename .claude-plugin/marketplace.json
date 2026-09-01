@@ -1,0 +1,34 @@
+{
+  "name": "uxbyissa",
+  "owner": {
+    "name": "UXBYISSA",
+    "url": "https://uxbyissa.com"
+  },
+  "description": "Measurement-first audit tooling for interfaces, with first-class Arabic and RTL support.",
+  "plugins": [
+    {
+      "name": "ux-ui-audit",
+      "source": "./",
+      "description": "Evidence-backed UX/UI and accessibility audit. Browser probes measure WCAG contrast, tap targets, Fitts and Hick indices and design-system conformance, with RTL/Arabic and LTR localisation engines.",
+      "version": "1.0.0",
+      "author": {
+        "name": "UXBYISSA",
+        "url": "https://uxbyissa.com"
+      },
+      "homepage": "https://github.com/uxbyissa/ux-ui-audit",
+      "license": "MIT",
+      "keywords": [
+        "ux",
+        "ui",
+        "accessibility",
+        "wcag",
+        "audit",
+        "design-review",
+        "i18n",
+        "rtl",
+        "arabic"
+      ],
+      "category": "design"
+    }
+  ]
+}

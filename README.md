@@ -267,7 +267,14 @@ Fix: wrap the price in <bdi>, or unicode-bidi: isolate on its container.
 
 ## Install
 
-**Claude Code** — clone into your skills directory:
+**Claude Code** — as a plugin:
+
+```bash
+/plugin marketplace add uxbyissa/ux-ui-audit
+/plugin install ux-ui-audit@uxbyissa
+```
+
+Or clone it straight into your skills directory:
 
 ```bash
 git clone https://github.com/uxbyissa/ux-ui-audit ~/.claude/skills/ux-ui-audit
