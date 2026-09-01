@@ -124,53 +124,48 @@ of JSON into something a team will act on.
 
 ### What it loads
 
-Skills load in three stages, so the full repository is never in context at once.
+Measured with `scripts/count-tokens.mjs` against `/v1/messages/count_tokens`,
+not estimated. Skills load in three stages, so the full repository is never in
+context at once.
 
-| Stage | What loads | ~tokens |
+| Stage | What loads | tokens |
 |---|---|---|
-| Always | the skill description only | **390** |
-| On trigger | `SKILL.md` body | **3,900** |
-| On demand | one probe, when read | 1,300 – 5,200 |
-| On demand | one reference, when read | 1,500 – 2,900 |
-| Everything at once | all 8 probes + all 6 references | 43,900 |
+| Always | the skill description only | **522** |
+| On trigger | `SKILL.md` body | **5,779** |
+| On demand | a probe, when read | — |
+| On demand | a reference, when read | — |
+| All 8 probes together | never happens in practice | 42,334 |
+| All 6 references together | never happens in practice | 19,265 |
 
-The last row never happens in practice. A typical audit reads three or four
-probes and at most one reference.
+The two "never happens" rows are there for a ceiling, not a forecast. A typical
+audit reads three or four probes and at most one reference, and the number that
+actually matters is the first row: **522 tokens sit in context whether or not
+you ever use the skill.**
 
-| Probe | ~tokens | | Reference | ~tokens |
-|---|---|---|---|---|
-| `probe-routes.js` | 1,300 | | `report-template.md` | 1,500 |
-| `probe-focus.js` | 1,500 | | `wcag-thresholds.md` | 1,700 |
-| `probe-parity.js` | 2,200 | | `foundations.md` | 1,800 |
-| `probe-ltr.js` | 3,800 | | `evaluation-matrix.md` | 1,900 |
-| `probe-perception.js` | 4,100 | | `arabic-rtl.md` | 2,800 |
-| `probe-core.js` | 4,400 | | `reading-list.md` | 2,900 |
-| `probe-heuristics.js` | 4,400 | | | |
-| `probe-rtl.js` | 5,200 | | | |
-
-`probe-rtl.js` is the largest despite not being the longest file: its Arabic
-word lists tokenise at roughly 2.3 characters per token against 3.7 for the
-surrounding code, because Arabic sits outside the merges the tokeniser was
-optimised on. That ratio is worth knowing generally — Arabic content costs
-roughly 1.6× what the same character count costs in English.
-
-**These are estimates**, derived from character counts at 3.7 chars/token for
-code, 3.9 for English prose and 2.3 for Arabic. Every other number in this
-repository is measured; these are not, and saying so is cheaper than being
-wrong about it.
-
-Measure them yourself rather than trusting the table:
+For the per-file breakdown and a chars-per-token column:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-... node scripts/count-tokens.mjs
 ```
 
-No dependencies, Node 18+. It calls the token-counting endpoint for every file
-and prints measured counts plus a chars-per-token column, subtracting the
-message-wrapper overhead so each number is the file's own cost. Counting is a
-metering endpoint — it returns a count without generating anything, so a full
-run costs nothing beyond the requests. Add `--json` to pipe it somewhere, or
-`--model` to compare tokenisers across models.
+No dependencies, Node 18+. It measures the message-wrapper overhead once and
+subtracts it, so each number is the file's own cost. Counting is a metering
+endpoint — it returns a count without generating anything, so a full run costs
+fractions of a cent. `--json` to pipe it, `--model` to compare tokenisers.
+
+**A note on why this section is measured rather than estimated.** It used to
+carry character-ratio estimates. Measuring showed they were low by 33–57%
+across every row — the assumed ratio for English prose was 3.9 chars/token
+against roughly 2.99 actual, and English is most of these files. Estimates
+under-reported the real cost by between a third and a half, which is exactly
+the kind of confident-but-wrong number this project exists to avoid.
+
+Files containing Arabic do measure denser than English prose — `probe-rtl.js`
+at 2.19 and `arabic-rtl.md` at 2.34 chars/token against ~2.99 for English
+prose. How much of that gap is the Arabic itself and how much is the dense
+regex and Unicode ranges surrounding it is not something these numbers can
+separate, so no multiplier is claimed here. Run the script on your own content
+if you need that figure.
 
 ### Roughly what one audit costs
 
