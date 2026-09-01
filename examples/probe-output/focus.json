@@ -1,0 +1,28 @@
+{
+ "_precondition": "Captured after a genuine Tab keypress. A programmatic .focus() does not satisfy :focus-visible and would have reported a missing focus ring on a site that has one.",
+ "url": "https://app.example.com/ar/home",
+ "focusedElement": {
+  "tag": "div",
+  "role": null,
+  "tabindex": "0",
+  "text": "عامة",
+  "ariaLabel": null
+ },
+ "focusVisibleMatches": true,
+ "indicator": {
+  "outlineStyle": "solid",
+  "outlineWidth": "1.6px",
+  "outlineColor": "rgb(0, 75, 254)",
+  "outlineOffset": "1.6px",
+  "boxShadow": "rgba(0, 0, 0, 0.157) 0px 4px 10px -4px, rgba(255, 255, 255, 0.12) 0px 1px 0px 0p",
+  "backgroundBehind": "rgb(20, 22, 28)"
+ },
+ "verdict": {
+  "contrastRatio": 2.96,
+  "contrastRequired": 3,
+  "contrastPasses": false,
+  "note_1_4_11": "FAIL — 2.96:1 against rgb(20, 22, 28); SC 1.4.11 requires >= 3:1.",
+  "note_thickness": "1.6px is thin; SC 2.4.13 (AAA) asks for a 2px-equivalent perimeter. Not an AA failure, but it reads as a weak indicator.",
+  "semantics": "FAIL — <div tabindex=\"0\"> with no role. Screen readers announce it as text, and keyboard activation is not wired for free. Use a real <a> or <button>, or add an explicit role plus key handlers."
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "url": "https://app.example.com/en/home",
+ "locale": {
+  "htmlLang": "en",
+  "htmlDir": "ltr",
+  "localeInPath": "en",
+  "routeWithoutLocale": "/home",
+  "hreflangAlternates": [],
+  "hreflangPresent": false
+ },
+ "localeSwitcher": {
+  "candidates": [],
+  "note": "keepsRoute:false means switching language drops the user's current page. An empty candidate list at this viewport means there is no language switcher at all — the user can only change language by editing the URL."
+ },
+ "structure": {
+  "headings": 4,
+  "headingOutline": [
+   "H1: Hi 👋 demo-user",
+   "H2: Previous conversations",
+   "H2: Library",
+   "H2: Groups"
+  ],
+  "interactiveControls": 15,
+  "images": 4,
+  "forms": 0,
+  "pageHeight": 1707
+ },
+ "labels": [
+  "Notifications",
+  "Create my plan",
+  "Aria - Your smart assistant Select at least one book to start a chat",
+  "View All",
+  "أسماء فصول الكتاب Sep 1",
+  "View All",
+  "Study plan A dated plan built from your weak topics, with quizzes and chats with Arie, adapting as you go.",
+  "Your Weak Topics Focus on the topics you miss most",
+  "View All",
+  "عامة",
+  "Home",
+  "Folders",
+  "Groups",
+  "Archives",
+  "Menu"
+ ],
+ "labelCount": 15,
+ "nameCandidates": [
+  "View ×3", "Arie ×2", "Groups ×2", "Enthusiasm ×1", "Today ×1", "Books ×1",
+  "Tests ×1", "Start ×1", "Create ×1", "Aria ×1", "Select ×1", "Previous ×1",
+  "Library ×1", "Study ×1", "Weak ×1", "Topics ×1", "Focus ×1", "Folders ×1", "Archives ×1"
+ ],
+ "nearDuplicateNames": [
+  { "a": "Arie", "b": "Aria", "countA": 2, "countB": 1 }
+ ],
+ "numerals": { "western": 17, "arabicIndic": 0 },
+ "numericValues": ["1", "10%", "5", "0", "0%", "20%"],
+ "title": "Example App",
+ "metaDescription": "A smart study platform — your books, your assistant and your quizzes in one place",
+
+ "compareChecklist": [
+  "structure.headings and structure.interactiveControls should match. A gap means content renders in one locale and not the other.",
+  "labels: read both lists side by side. An entry present in one and absent in the other is a missing translation the app rendered as nothing.",
+  "nameCandidates: the same product or feature must appear under one name in every locale. Check nearDuplicateNames first.",
+  "numericValues: prices, limits and counts should be identical across locales once the numeral system is accounted for.",
+  "title and metaDescription should differ (they are translated) but must both be present and route-specific.",
+  "locale.hreflangPresent should be true on both sides, and each should point at the other.",
+  "localeSwitcher.keepsRoute should be true — otherwise every language change sends the user back to the start.",
+  "numerals: each locale should commit to one system. Both counts non-zero on one page is a mixing defect."
+ ]
+}

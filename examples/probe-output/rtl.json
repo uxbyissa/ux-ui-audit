@@ -1,0 +1,53 @@
+{
+ "url": "https://app.example.com/ar/subscription",
+ "lang": "ar",
+ "dir": "rtl",
+ "textNodes": { "total": 71, "arabic": 63 },
+ "pluralCandidates": [],
+ "pluralNote": "Verify each by reading it aloud. Fix with Intl.PluralRules('ar') — it returns zero/one/two/few/many/other, and every one of those needs its own string.",
+ "numerals": {
+  "arabicIndicCount": 42,
+  "westernCount": 16,
+  "mixed": true,
+  "samplesIndic": [
+   "‏٧٫٩٩ US$",
+   "تاريخ التفعيل: ١ سبتمبر ٢٠٢٦",
+   "تاريخ التجديد القادم: ١ أكتوبر ٢٠٢٦"
+  ],
+  "samplesWestern": [
+   "الاختبارات 20 / 20",
+   "صور 5 / 5",
+   "غير مسموح بحل اكثر من 10 اختبارات"
+  ],
+  "note": "Either system is fine — pick one and route every number through Intl.NumberFormat. Dates formatted by one library and counters by another is the usual cause."
+ },
+ "registerMix": { "detected": {}, "samples": [], "registersPresent": 0 },
+ "genderedImperatives": { "masculine": [], "feminine": [], "bothFormsPresent": false },
+ "spelling": [
+  {
+   "found": "اكثر",
+   "suggested": "أكثر",
+   "text": "غير مسموح بحل اكثر من 10 اختبارات",
+   "selector": "li.flex > span.text-body"
+  }
+ ],
+ "spellingNote": "Hamza errors read as illiteracy to Arabic readers, the way 'teh' does in English.",
+ "letterSpacing": [],
+ "typography": { "tightLineHeight": [], "uppercaseOnArabic": [] },
+ "physicalCss": { "computedLeftAlign": [] },
+ "bidiHazards": [
+  { "text": "‏٧٫٩٩ US$", "containsLatin": true, "unicodeBidi": "normal", "selector": "div.glass-2 > p.text-title" }
+ ],
+ "bidiNote": "Screenshot these before reporting — many render fine. This one does not: the source is '٧٫٩٩ US$' (codepoints 200f 667 66b 669 669 a0 55 53 24) and it renders on screen as '$US ٧٫٩٩'. The dollar sign is a neutral character and joins the wrong run. Fix with <bdi> or unicode-bidi: isolate.",
+ "untranslated": [],
+ "truncation": [
+  {
+   "full": "خطة بلس",
+   "renderedWidth": 74,
+   "contentWidth": 76,
+   "looksLikeFilename": false,
+   "selector": "div.glass-2 > p.mt-0"
+  }
+ ],
+ "truncationNote": "Clipped by 2px — the subscribed plan's name is cut off because its container is two pixels too narrow. A sizing bug, not a content-length problem."
+}

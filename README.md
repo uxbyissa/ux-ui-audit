@@ -68,6 +68,66 @@ names, which is how a one-character split like Limo/Lemo gets caught.
 | Truncation | End-ellipsis hiding a filename's extension and title |
 | Untranslated strings | Latin text left on an `ar` route |
 
+## Why not axe or Lighthouse
+
+Use them. They are excellent at what they cover, this skill does not replace
+them, and a good audit runs both. The gap is that they were built to check
+*structure* against a spec — so a defect that is structurally valid and
+semantically wrong passes every time.
+
+| | axe / Lighthouse | this skill |
+|---|---|---|
+| WCAG contrast, ARIA wiring, landmarks, alt text | ✅ | ✅ |
+| Contrast over gradients | reported or skipped silently | reported as `unverifiable`, with the reason |
+| `oklch()` / `oklab()` colour tokens | varies by version | parsed by painting a pixel |
+| Hick and Fitts indices | ✗ | ✅ measured, with reachability banding |
+| Design-system conformance (distinct type / spacing / radius values) | ✗ | ✅ |
+| Gestalt proximity, similarity, grid alignment | ✗ | ✅ geometry, not opinion |
+| Emphasis inflation (% of text at semibold+) | ✗ | ✅ |
+| Missing `:active` / `:disabled` rules across the stylesheet | ✗ | ✅ |
+| Arabic plural agreement (`1 المجلدات`) | ✗ | ✅ |
+| Mixed numeral systems on one screen | ✗ | ✅ |
+| Dialect and register mixing, gendered imperatives | ✗ | ✅ |
+| `letter-spacing` severing Arabic letter joins | ✗ | ✅ |
+| Bidi hazards — a price rendering backwards | ✗ | ✅ |
+| English plural templates, Title-vs-sentence case drift | ✗ | ✅ |
+| Text expansion headroom before translation | ✗ | ✅ |
+| Cross-locale parity — a name spelled two ways, a stale price in one language | ✗ | ✅ |
+| Placeholder copy shipped to production | ✗ | reading pass |
+| Claims the product cannot fulfil | ✗ | reading pass |
+| A purchase CTA weaker than an inert button | ✗ | ✅ + reading pass |
+
+The bottom rows are the point. A pricing page whose premium tier promises "live
+sessions with instructors" for a product with no instructors scores perfectly on
+every automated check ever written, because there is nothing structurally wrong
+with it.
+
+## What the output looks like
+
+[`examples/`](examples/) holds real probe output and the report built from it —
+measurements verbatim, product identity redacted. Start with
+[`examples/sample-audit-report.md`](examples/sample-audit-report.md), then read
+[`examples/probe-output/`](examples/probe-output/) to see what a probe actually
+returns.
+
+A finding as it appears in a report:
+
+```
+04 · Critical · /ar/subscription · rtl.json → bidiHazards
+
+The price renders backwards.
+
+   source codepoints:  200f ٧ ٫ ٩ ٩ [nbsp] U S $
+   source reads:       ٧٫٩٩ US$
+   renders on screen:  $US ٧٫٩٩
+   direction: rtl  ·  unicode-bidi: normal
+
+The dollar sign is a neutral character; with no isolation it joins the
+RTL run and moves to the far side.
+
+Fix: wrap the price in <bdi>, or unicode-bidi: isolate on its container.
+```
+
 ## Install
 
 **Claude Code** — clone into your skills directory:

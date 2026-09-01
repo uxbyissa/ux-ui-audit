@@ -1,0 +1,74 @@
+{
+ "url": "https://app.example.com/ar/more",
+ "viewport": [375, 812],
+ "proximity": {
+  "uniformlySpacedGroups": [],
+  "orphanedHeadings": []
+ },
+ "similarity": [
+  {
+   "role": "link-styled-control",
+   "distinctTreatments": 4,
+   "variants": [
+    {
+     "style": "rgba(0, 0, 0, 0) | 0px | 16px | 400 | 105px tall",
+     "count": 20,
+     "examples": ["مكتبتي", "المجلدات", "الاختبارات", "المحادثات"]
+    },
+    {
+     "style": "rgba(0, 0, 0, 0) | 0px | 16px | 400 | 125px tall",
+     "count": 2,
+     "examples": ["المستخدمون المحظورون", "كود المركز"]
+    },
+    {
+     "style": "rgba(0, 0, 0, 0) | 0px | 11px | 600 | 61px tall",
+     "count": 5,
+     "examples": ["الرئيسية", "المجلدات", "المجموعات"]
+    },
+    {
+     "style": "rgba(29, 32, 39, 0.68) | pill | 16px | 400 | 44px tall",
+     "count": 1,
+     "examples": ["الإشعارات"]
+    }
+   ],
+   "note": null
+  }
+ ],
+ "alignment": {
+  "readingEdge": "inline-start = right (RTL)",
+  "blocksMeasured": 38,
+  "distinctEdges": 7,
+  "dominantEdges": ["20px ×17", "0px ×8", "194px ×8", "100px ×2", "-30px ×1"],
+  "strayEdges": 3,
+  "note": "A handful of dominant edges carrying most blocks indicates a grid. A long tail of one-off edges is where visual noise comes from."
+ },
+ "chunking": [],
+ "responsiveness": {
+  "dohertyThresholdMs": 400,
+  "longTasksOver50ms": 0,
+  "slowInteractionEvents": [],
+  "skeletonElements": 0,
+  "spinnerElements": 1,
+  "loadingStrategy": "spinner only — consider skeletons that show the shape of the incoming content",
+  "note": "Event timings only cover interactions that happened while this page was open."
+ },
+ "emphasis": {
+  "textElementsOnScreen": 13,
+  "boldOrHeavier": 12,
+  "proportionBold": "92%",
+  "largerThanMedian1_5x": 1,
+  "note": "over 40% of on-screen text is semibold or heavier — weight has stopped carrying hierarchy"
+ },
+ "affordance": {
+  "indistinctInlineLinks": [],
+  "noPointerCursor": []
+ },
+ "constraints": [],
+ "topBand": {
+  "heightExamined": "0-120px",
+  "elements": 6,
+  "interactive": 2,
+  "contentBearing": ["demo-user", "الإشعارات"],
+  "note": "Branding alone in this band costs the user a scroll before the first useful thing."
+ }
+}

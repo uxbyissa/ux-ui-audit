@@ -1,0 +1,85 @@
+{
+ "url": "https://app.example.com/ar/subscription",
+ "viewport": [375, 812],
+ "cognitiveLoad": {
+  "interactiveTotal": 10,
+  "interactiveFirstScreen": 7,
+  "hickIndexFirstScreen": 3,
+  "reference": "Typical well-scoped screen: 8-15 interactive targets on first view (index ~3.2-4.0). Density is not automatically wrong — an expert dashboard earns it. Ask whether the screen has one obvious primary task.",
+  "navigationGroups": [{ "selector": "nav.glass-2", "choices": 5, "hickIndex": 2.58 }],
+  "forms": [],
+  "longSelects": []
+ },
+ "fitts": {
+  "inputMode": "touch (origin: thumb rest, bottom centre)",
+  "primaryActions": [
+   {
+    "text": "سجل الاشتراكات",
+    "index": 3.72,
+    "distance": 534,
+    "width": 140,
+    "height": 44,
+    "reachability": "top of screen — requires regripping the device"
+   },
+   {
+    "text": "الخطة الحالية",
+    "index": 0.5,
+    "distance": 21,
+    "width": 293,
+    "height": 52,
+    "reachability": "easy thumb reach"
+   }
+  ],
+  "competingPrimaries": {
+   "count": 2,
+   "labels": ["سجل الاشتراكات", "الخطة الحالية"],
+   "note": "More than one control styled as primary on one screen means none of them is. Give the intended action the filled treatment and demote the rest to outline or text."
+  }
+ },
+ "designSystem": {
+  "distinctFontSizes": { "count": 6, "verdict": "6 — consistent" },
+  "distinctFontWeights": { "count": 3 },
+  "distinctSpacingValues": { "count": 13, "verdict": "13 — consistent" },
+  "distinctBorderRadii": { "count": 6, "verdict": "6 — consistent" },
+  "distinctTextColors": { "count": 5, "verdict": "5 — consistent" },
+  "usesCustomProperties": 141,
+  "note": "Counts include third-party embeds. Cross-check a surprising number against the token file before reporting it."
+ },
+ "interactionStates": {
+  "ruleCounts": {
+   "hover": 2,
+   "focus": 0,
+   "focusVisible": 3,
+   "active": 0,
+   "disabled": 0,
+   "checked": 0,
+   "ariaExpanded": 0,
+   "ariaBusy": 0
+  },
+  "stylesheetsRead": 2,
+  "stylesheetsBlockedByCORS": 0,
+  "missing": ["focus", "active", "disabled", "checked", "ariaExpanded", "ariaBusy"],
+  "pointerCursorMissing": [],
+  "transitionsPresent": 8,
+  "liveRegions": 1,
+  "note": "All stylesheets readable; counts are complete for this page."
+ },
+ "microcopy": {
+  "fieldsTotal": 0,
+  "withHelperText": 0,
+  "withoutHelperText": [],
+  "placeholderAsOnlyLabel": [],
+  "requiredMarked": 0,
+  "errorContainers": 0,
+  "submitBlockedWithoutExplanation": []
+ },
+ "visualHierarchy": {
+  "largestTextOnScreen": { "px": 24, "text": "باقات الاشتراك", "tag": "H1" },
+  "typeScaleSteps": [24, 18, 16, 15, 14, 11],
+  "medianBodySize": 14,
+  "headlineToBodyRatio": 1.71,
+  "ratioNote": "Below ~1.5 the headline does not separate from body text and the eye has no entry point.",
+  "smallTextUnder12px": [],
+  "requiresScreenshot": "Gestalt grouping, scan path, and whether visual emphasis matches task priority cannot be derived from the DOM."
+ }
+}

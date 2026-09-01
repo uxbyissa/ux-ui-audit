@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>ux-ui-audit — social preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Readex+Pro:wght@400;500;700&display=swap">
+<style>
+  /* Render target: exactly 1280x640. Screenshot the .card element, or open at
+     a 1280x640 viewport and capture the full page. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #05070B; }
+  body { display: grid; place-items: center; min-height: 100vh; }
+
+  .card {
+    width: 1280px; height: 640px;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(120% 100% at 82% 8%, #171E2E 0%, #0B0E14 58%, #080A10 100%);
+    font-family: "Readex Pro", "Segoe UI", system-ui, sans-serif;
+    color: #E8ECF4;
+    padding: 52px 64px 46px;
+    display: flex; flex-direction: column;
+  }
+
+  /* engineering graph paper, not decoration */
+  .card::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(#9FB2D0 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: .04; pointer-events: none;
+  }
+  /* calibrated scale along the leading (right) edge */
+  .card::after {
+    content: ""; position: absolute; top: 0; right: 0; width: 3px; height: 100%;
+    background: repeating-linear-gradient(
+      to bottom, #4C7DFF 0 14px, transparent 14px 34px);
+    opacity: .28;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .kicker {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+    color: #7A8699; direction: ltr;
+  }
+  .kicker b { color: #4C7DFF; font-weight: 500; }
+
+  .hero { margin-top: 40px; }
+  h1 {
+    font-size: 74px; font-weight: 700; line-height: 1.14;
+    letter-spacing: -.02em; text-wrap: balance;
+  }
+  .rule {
+    width: 132px; height: 3px; margin: 22px 0 20px;
+    background: linear-gradient(to left, #4C7DFF, rgba(76,125,255,0));
+  }
+  .sub { font-size: 25px; font-weight: 400; color: #98A4B8; line-height: 1.5; }
+
+  .cards { display: flex; gap: 18px; margin-top: auto; align-items: stretch; }
+
+  .m {
+    flex: 1; background: #121826; border: 1px solid #232B3B; border-radius: 8px;
+    padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 9px;
+    position: relative;
+  }
+  .m.hero-card { flex: 1.28; background: #16203180; border-color: #2E3A50; }
+
+  .m .lbl {
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
+    letter-spacing: .17em; text-transform: uppercase; color: #6E7A8D;
+    direction: ltr; text-align: right;
+  }
+  .m .val {
+    font-family: "IBM Plex Mono", monospace; font-size: 31px; font-weight: 500;
+    line-height: 1.1; direction: ltr; text-align: right;
+  }
+  .m .val.ar { font-family: "Readex Pro", sans-serif; direction: rtl; font-size: 27px; }
+  .fail { color: #FF6B5E; }
+  .pass { color: #4ADE80; }
+
+  .m .note {
+    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: #79879C;
+    line-height: 1.5; direction: ltr; text-align: right; margin-top: auto;
+  }
+  .m .note.ar { font-family: "Readex Pro", sans-serif; direction: rtl; font-size: 13.5px; }
+
+  /* the 2.96 vs 3.0 shortfall, drawn */
+  .gauge { height: 5px; background: #202839; border-radius: 3px; position: relative; }
+  .gauge i { position: absolute; inset: 0 auto 0 0; width: 88%; background: #FF6B5E; border-radius: 3px; }
+  .gauge b {
+    position: absolute; top: -4px; left: 0; width: 2px; height: 13px; background: #4ADE80;
+  }
+
+  .arrow { color: #4ADE80; font-family: "IBM Plex Mono", monospace; font-size: 20px; }
+
+  .foot {
+    margin-top: 26px; display: flex; justify-content: space-between; align-items: center;
+    font-family: "IBM Plex Mono", monospace; font-size: 14px; color: #6E7A8D; direction: ltr;
+  }
+  .foot .who { color: #98A4B8; letter-spacing: .14em; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="top">
+    <div class="kicker">UX / UI AUDIT · <b>CLAUDE SKILL</b></div>
+    <div class="kicker">RTL + LTR · WCAG 2.2</div>
+  </div>
+
+  <div class="hero">
+    <h1>تدقيق يقيس، لا يرتجل</h1>
+    <div class="rule"></div>
+    <div class="sub">كل ملاحظة تحمل رقماً مقاساً أو اقتباساً حرفياً</div>
+  </div>
+
+  <div class="cards">
+
+    <div class="m">
+      <div class="lbl">FOCUS RING · WCAG 1.4.11</div>
+      <div class="val fail">2.96 : 1</div>
+      <div class="gauge"><i></i><b style="left:calc(88% + 6px)"></b></div>
+      <div class="note">required 3 : 1 — fails by 0.04</div>
+    </div>
+
+    <div class="m hero-card">
+      <div class="lbl">ARABIC PLURAL AGREEMENT</div>
+      <div class="val ar fail">١ المجلدات</div>
+      <div class="val ar pass" style="font-size:23px"><span class="arrow">→</span> مجلد واحد</div>
+      <div class="note">no mainstream tool checks this</div>
+    </div>
+
+    <div class="m">
+      <div class="lbl">PRESS FEEDBACK</div>
+      <div class="val fail">:active × 0</div>
+      <div class="note">zero rules across every<br>stylesheet — a screenshot<br>can never show this</div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>github.com/uxbyissa/ux-ui-audit</span>
+    <span class="who">UXBYISSA</span>
+  </div>
+
+</div>
+</body>
+</html>

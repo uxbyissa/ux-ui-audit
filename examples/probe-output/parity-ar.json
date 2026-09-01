@@ -1,0 +1,70 @@
+{
+ "url": "https://app.example.com/ar/home",
+ "locale": {
+  "htmlLang": "ar",
+  "htmlDir": "rtl",
+  "localeInPath": "ar",
+  "routeWithoutLocale": "/home",
+  "hreflangAlternates": [],
+  "hreflangPresent": false
+ },
+ "localeSwitcher": {
+  "candidates": [],
+  "note": "No language switcher present at this viewport in either locale — see parity-en.json."
+ },
+ "structure": {
+  "headings": 4,
+  "headingOutline": [
+   "H1: مرحباً 👋 demo-user",
+   "H2: المحادثات السابقة",
+   "H2: المكتبة",
+   "H2: المجموعات"
+  ],
+  "interactiveControls": 15,
+  "images": 4,
+  "forms": 0,
+  "pageHeight": 1686
+ },
+ "labels": [
+  "الإشعارات",
+  "اعملي خطتي",
+  "أريا - مساعدك الذكي حدد كتاب على الأقل لبدء دردشة",
+  "عرض الكل",
+  "أسماء فصول الكتاب ١ سبتمبر",
+  "عرض الكل",
+  "خطة الدراسة خطة بتواريخ مبنية على نقاط ضعفك، فيها اختبارات ومحادثات مع أريا، وبتتعدّل مع تقدّمك.",
+  "نقاط ضعفك ذاكر المواضيع اللي بتغلط فيها أكتر",
+  "عرض الكل",
+  "عامة",
+  "الرئيسية",
+  "المجلدات",
+  "المجموعات",
+  "الأرشيف",
+  "القائمة"
+ ],
+ "labelCount": 15,
+ "nameCandidates": [],
+ "nearDuplicateNames": [],
+ "numerals": { "western": 15, "arabicIndic": 2 },
+ "numericValues": ["1", "10%", "5", "0", "0%", "20%"],
+ "title": "Example App",
+ "metaDescription": "منصة تعلّم ذكية — كتبك ومساعدك واختباراتك في مكان واحد",
+
+ "diffAgainstEn": {
+  "matches": [
+   "headings 4 = 4",
+   "interactiveControls 15 = 15",
+   "images 4 = 4",
+   "labelCount 15 = 15",
+   "numericValues identical: 1, 10%, 5, 0, 0%, 20%"
+  ],
+  "differences": [
+   "title identical across locales ('Example App') — it is not translated, and every route shares it",
+   "hreflangPresent false on both sides — neither locale declares the other exists",
+   "localeSwitcher empty on both sides at mobile width — language can only be changed by editing the URL",
+   "numerals: the Arabic page mixes systems (western 15 + arabicIndic 2); the English page does not. The mixing defect is Arabic-side only",
+   "nearDuplicateNames: the assistant is spelled two ways on the English page and one way on the Arabic page — the drift is in the English translation file"
+  ],
+  "verdict": "Content parity is sound: identical counts and identical numeric values mean nothing renders in one language and vanishes in the other. Every defect above exists only in the comparison, and neither single-locale audit would surface any of them."
+ }
+}

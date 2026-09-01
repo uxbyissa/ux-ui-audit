@@ -1,0 +1,60 @@
+{
+ "url": "https://app.example.com/ar/subscription",
+ "viewport": [375, 812],
+ "contrast": {
+  "checked": 42,
+  "measured": 42,
+  "unparseable": 0,
+  "failures": [],
+  "unverifiable": []
+ },
+ "tapTargets": {
+  "checked": 10,
+  "tooSmall": [],
+  "between24and44": 0
+ },
+ "naming": {
+  "unnamed": [],
+  "pollutedNames": [],
+  "duplicateNames": []
+ },
+ "duplicateDestinations": [],
+ "head": {
+  "lang": "ar",
+  "dir": "rtl",
+  "title": "Example App",
+  "description": "منصة تعلّم ذكية — كتبك ومساعدك واختباراتك في مكان واحد",
+  "viewport": "width=device-width, initial-scale=1",
+  "canonical": null,
+  "openGraph": [],
+  "twitter": [],
+  "hreflang": [],
+  "structuredData": 0
+ },
+ "structure": {
+  "h1Count": 1,
+  "outline": ["H1: باقات الاشتراك"],
+  "skippedLevels": [],
+  "landmarks": "main=1  nav=2  header=0  footer=0  aside=0",
+  "skipLink": false,
+  "imagesMissingAlt": [],
+  "totalImages": 2
+ },
+ "forms": [],
+ "disabledSubmits": [],
+ "layout": {
+  "horizontalOverflow": null,
+  "pageHeight": 1686,
+  "screensOfScroll": 2.1,
+  "overflowingElements": []
+ },
+ "performance": {
+  "ttfb": 91,
+  "domContentLoaded": 126,
+  "loadEvent": 228,
+  "paints": { "first-paint": 332, "first-contentful-paint": 332 },
+  "requestCount": 25,
+  "transferKB": 0,
+  "note": "transferKB reads 0 for cached resources — hard-reload before trusting it"
+ }
+}
