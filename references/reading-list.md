@@ -140,3 +140,39 @@ When writing a finding, name the layer implicitly by how you evidence it:
 The failure to avoid is dressing an L2 or L3 judgement in L1 clothing. A
 confidence-shaped sentence with no number behind it spends credibility the
 measured findings earned.
+
+---
+
+## Localisation coverage in both directions
+
+The RTL engine came first because Arabic is where the gap in existing tooling
+is widest. The LTR engine and the parity pass close the rest of it.
+
+**Why an LTR engine at all**, when English is what every tool already assumes:
+because the same template bugs occur, they are just quieter. `1 items` is the
+identical defect as `1 المجلدات` — a `{count} {label}` string with a hardcoded
+plural — but English readers have been trained to skim past it. Title Case and
+sentence case mixed across one screen, `03/04/2026` meaning two different days
+depending on the reader, a button with no room for a longer word: each is a
+defect today and a much more expensive one on the day a second locale is added.
+
+**Why parity is separate from both.** Some defects exist only in the comparison.
+A feature renamed on one side, a card that renders in one language and not the
+other, a price stale in one locale — each version passes its own audit, and the
+product is still broken. `probe-parity.js` emits a fingerprint per locale rather
+than diffing across a fetch, because fetching the counterpart URL of a
+client-rendered app returns a shell that has not been filled in, and diffing
+that produces confident nonsense.
+
+| Criterion | Source | Layer | Measured by |
+|---|---|---|---|
+| Plural agreement, both languages | CLDR, ECMA-402 | **L1** | `probe-rtl.js → pluralCandidates`, `probe-ltr.js → pluralCandidates` |
+| Capitalisation consistency | House style; Refactoring UI on visual rank | **L1** | `probe-ltr.js → capitalisation` |
+| Unambiguous dates and grouped numbers | ECMA-402 | **L1** | `probe-ltr.js → formatting` |
+| Text expansion headroom | W3C i18n — text size in translation | **L1** | `probe-ltr.js → expansionHeadroom` (only `nowrap` controls can clip) |
+| Translatable sentence structure | W3C i18n — avoid concatenation | **L1** | `probe-ltr.js → concatenation` |
+| Language of parts | WCAG 3.1.2 | **L1** | `probe-ltr.js → foreignRuns` |
+| Cross-locale content parity | — | **L1** | `probe-parity.js → structure`, `labels` |
+| Terminology and product-name consistency | Nielsen heuristic 4 | **L1** partial + L3 | `probe-parity.js → nearDuplicateNames` catches one-character variants; two entirely different words still need a human reading both locales |
+| Data parity across locales | — | **L1** | `probe-parity.js → numericValues` |
+| `hreflang` and locale switching | W3C i18n, SEO practice | **L1** | `probe-parity.js → locale`, `localeSwitcher` |

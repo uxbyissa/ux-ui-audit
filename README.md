@@ -38,8 +38,22 @@ because they require understanding what the words mean:
 - empty states with no way out
 - a headline onboarding promise with no entry point in the app
 
-**Arabic / RTL**, via a dedicated engine. This is the part with no equivalent
-elsewhere:
+**Localisation, in both directions.** An RTL engine and an LTR engine, plus a
+parity pass for bilingual products — the defect class that exists only in the
+comparison between two locales and is invisible to either one audited alone.
+
+*LTR / English:* `1 items` and `file(s)` templates · Title Case and sentence
+case mixed across labels of the same rank · ambiguous `03/04/2026` · large
+numbers with no grouping · controls with no room for a longer translation ·
+sentences assembled from fragments that cannot be reordered · foreign-language
+runs missing `lang` (WCAG 3.1.2) · helper-text punctuation drift.
+
+*Parity:* structural counts per locale, the ordered label inventory, numeric
+values that must match across languages, `hreflang` on both sides, whether the
+language switcher preserves the current route — and near-duplicate product
+names, which is how a one-character split like Limo/Lemo gets caught.
+
+*Arabic / RTL*, the part with no equivalent elsewhere:
 
 | Check | Catches |
 |---|---|
@@ -92,6 +106,8 @@ ux-ui-audit/
 │   ├── probe-perception.js       Gestalt proximity/similarity, grid alignment,
 │   │                             chunking, response timing, emphasis, affordance
 │   ├── probe-rtl.js              the Arabic / RTL engine
+│   ├── probe-ltr.js              the LTR / English engine
+│   ├── probe-parity.js           cross-locale fingerprint for bilingual apps
 │   ├── probe-focus.js            focus indicator (needs a real Tab keypress)
 │   └── probe-routes.js           destination sweep and label/href mismatches
 └── references/

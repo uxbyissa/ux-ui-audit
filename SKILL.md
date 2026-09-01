@@ -1,6 +1,6 @@
 ---
 name: ux-ui-audit
-description: Run a rigorous, evidence-backed UX/UI and accessibility audit of a live web page or app using the browser. Bundles probe scripts that measure real numbers — WCAG contrast ratios, tap-target sizes, focus-ring contrast, accessible-name wiring, duplicate link destinations, route health — so every finding carries proof instead of opinion. Adds a reading pass for the defects tooling cannot see (placeholder copy shipped to production, contradictory claims, inconsistent product naming, dead-end empty states) and a dedicated Arabic/RTL engine (broken plural agreement, mixed numeral systems, dialect and register mixing, gendered imperatives, letter-spacing on cursive script, bidi hazards, physical CSS in RTL) that mainstream tools do not cover. Use this whenever the user asks for a UX review, UI review, design review, accessibility audit, a11y check, usability review, heuristic evaluation, RTL or Arabic localisation review, "what's wrong with my site", or shares a URL and asks for feedback on it — even when they never say the word "audit".
+description: Run a rigorous, evidence-backed UX/UI and accessibility audit of a live web page or app using the browser. Bundles probe scripts that measure real numbers — WCAG contrast ratios, tap-target sizes, focus-ring contrast, accessible-name wiring, duplicate link destinations, route health, Hick's Law and Fitts's Law indices, design-system conformance, Gestalt proximity and similarity — so every finding carries proof instead of opinion. Adds a reading pass for the defects tooling cannot see (placeholder copy shipped to production, contradictory claims, inconsistent product naming, dead-end empty states) and full localisation coverage in both directions: an Arabic/RTL engine (broken plural agreement, mixed numeral systems, dialect and register mixing, gendered imperatives, letter-spacing on cursive script, bidi hazards, physical CSS in RTL), an LTR/English engine (English plural templates, Title-vs-sentence case drift, ambiguous dates, text expansion headroom, concatenated sentences, foreign-language runs missing lang), and a cross-locale parity pass for bilingual products that catches renamed features, missing translations and mismatched numbers between languages. Use this whenever the user asks for a UX review, UI review, design review, accessibility audit, a11y check, usability review, heuristic evaluation, localisation or i18n review, RTL or Arabic review, bilingual or multi-language parity check, "what's wrong with my site", or shares a URL and asks for feedback on it — even when they never say the word "audit".
 ---
 
 # UX/UI Audit
@@ -75,15 +75,26 @@ aimed at pages you already know are interesting.
    Run it at the viewport the product is actually used at: Fitts distances and
    first-screen counts are viewport-dependent, so a mobile-first product
    measured at desktop width gives numbers that describe nobody.
-4. **RTL probe** — `probe-rtl.js` on every Arabic or RTL page. Skip for LTR-only
-   products.
-5. **Focus probe** — press Tab, then `probe-focus.js`. Repeat across control
+4. **Localisation probes** — pick by what the page contains, and run both on a
+   bilingual product:
+   - `probe-rtl.js` on any page containing Arabic or rendering RTL
+   - `probe-ltr.js` on any page in English or another LTR language
+   A monolingual English product still needs `probe-ltr.js`: `1 items`, a
+   button with no room for a longer word and an ambiguous `03/04/2026` are
+   defects today, and they are the expensive kind to discover on the day a
+   second locale is added.
+5. **Parity pass** — for a bilingual product, run `probe-parity.js` on the same
+   route in each locale and compare the fingerprints. This finds the defect
+   class neither single-locale pass can see, because it does not exist in
+   either version alone: a feature renamed on one side, a card that renders in
+   one language and not the other, a price that is stale in one locale.
+6. **Focus probe** — press Tab, then `probe-focus.js`. Repeat across control
    types; focus styles are usually per-component.
-6. **Screenshot pass** — capture each key viewport. Gestalt grouping, scan path,
+7. **Screenshot pass** — capture each key viewport. Gestalt grouping, scan path,
    whether emphasis matches task priority, and first aesthetic impression
    cannot be derived from the DOM; assess them here, and say that you did.
-7. **Reading pass** — the protocol below.
-8. **Reproduction** — re-test anything that looked intermittent.
+8. **Reading pass** — the protocol below.
+9. **Reproduction** — re-test anything that looked intermittent.
 
 ### Running the probes
 
@@ -100,6 +111,13 @@ string.
   alignment, Miller chunking, Doherty response timing, emphasis inflation,
   clickability affordance, input constraints, top-of-screen real estate
 - `scripts/probe-rtl.js` — the Arabic/RTL engine
+- `scripts/probe-ltr.js` — the LTR/English engine: English plural templates,
+  Title-vs-sentence case drift, ambiguous dates and ungrouped numbers, text
+  expansion headroom, concatenated sentences, foreign-language runs missing
+  `lang`, truncation, helper-text punctuation
+- `scripts/probe-parity.js` — cross-locale fingerprint. Run it on the *same
+  route in each locale* and compare the two outputs; it carries its own
+  `compareChecklist`
 - `scripts/probe-focus.js` — focus indicator; **requires a real Tab keypress
   first**, because programmatic `.focus()` does not trigger `:focus-visible` and
   you will report a false failure
@@ -136,8 +154,11 @@ was written by a different person on a different day.
 
 **Check naming consistency across the whole product.** One feature, one name.
 Assistant names, tier names, and the words for core objects ("quiz" vs "test",
-"folder" vs "collection") drift between screens and between locales. Compare the
-same page across languages — that is where the drift shows up fastest.
+"folder" vs "collection") drift between screens and between locales.
+`probe-parity.js` reports `nearDuplicateNames` for one-character variants such
+as Limo/Lemo, but it only sees capitalised Latin words on the page it ran on —
+terminology that drifts between two *different* words ("Tests" here, "Quizzes"
+there) still needs you to read both locales side by side.
 
 **Test every empty state.** An empty state without an action is a dead end, and
 new users hit these before they hit anything else. Ask of each: what does the
