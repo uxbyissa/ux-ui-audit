@@ -124,25 +124,37 @@ of JSON into something a team will act on.
 
 ### What it loads
 
-Measured with `scripts/count-tokens.mjs` against `/v1/messages/count_tokens`,
-not estimated. Skills load in three stages, so the full repository is never in
-context at once.
+Measured with `scripts/count-tokens.mjs` against `/v1/messages/count_tokens`
+on `claude-opus-5`. Not estimated — see the note at the end of this section for
+why that distinction earned its place.
+
+Skills load in three stages, so the full repository is never in context at once.
 
 | Stage | What loads | tokens |
 |---|---|---|
 | Always | the skill description only | **522** |
 | On trigger | `SKILL.md` body | **5,779** |
-| On demand | a probe, when read | — |
-| On demand | a reference, when read | — |
-| All 8 probes together | never happens in practice | 42,334 |
-| All 6 references together | never happens in practice | 19,265 |
+| On demand | a probe | 1,944 – 8,532 |
+| On demand | a reference | 2,315 – 4,505 |
 
-The two "never happens" rows are there for a ceiling, not a forecast. A typical
-audit reads three or four probes and at most one reference, and the number that
-actually matters is the first row: **522 tokens sit in context whether or not
-you ever use the skill.**
+The number that matters most is the first: **522 tokens sit in context whether
+or not you ever use the skill.** A typical audit then reads three or four
+probes and at most one reference. Loading all fourteen files at once — 61,599
+tokens — does not happen in practice.
 
-For the per-file breakdown and a chars-per-token column:
+| Probe | tokens | ch/tok | | Reference | tokens | ch/tok |
+|---|---|---|---|---|---|---|
+| `probe-routes.js` | 1,944 | 2.48 | | `report-template.md` | 2,315 | 2.59 |
+| `probe-focus.js` | 2,549 | 2.17 | | `foundations.md` | 2,427 | 2.85 |
+| `probe-parity.js` | 3,408 | 2.42 | | `wcag-thresholds.md` | 2,721 | 2.44 |
+| `probe-ltr.js` | 5,942 | 2.34 | | `evaluation-matrix.md` | 2,948 | 2.56 |
+| `probe-perception.js` | 6,208 | 2.47 | | `reading-list.md` | 4,349 | 2.61 |
+| `probe-heuristics.js` | 6,729 | 2.43 | | `arabic-rtl.md` | 4,505 | 2.34 |
+| `probe-core.js` | 7,022 | 2.30 | | | | |
+| `probe-rtl.js` | 8,532 | 2.19 | | | | |
+| **all 8** | **42,334** | | | **all 6** | **19,265** | |
+
+Reproduce it, or run it on your own content:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-... node scripts/count-tokens.mjs
@@ -153,19 +165,54 @@ subtracts it, so each number is the file's own cost. Counting is a metering
 endpoint — it returns a count without generating anything, so a full run costs
 fractions of a cent. `--json` to pipe it, `--model` to compare tokenisers.
 
-**A note on why this section is measured rather than estimated.** It used to
-carry character-ratio estimates. Measuring showed they were low by 33–57%
-across every row — the assumed ratio for English prose was 3.9 chars/token
-against roughly 2.99 actual, and English is most of these files. Estimates
-under-reported the real cost by between a third and a half, which is exactly
-the kind of confident-but-wrong number this project exists to avoid.
+### What tokenises expensively, measured
 
-Files containing Arabic do measure denser than English prose — `probe-rtl.js`
-at 2.19 and `arabic-rtl.md` at 2.34 chars/token against ~2.99 for English
-prose. How much of that gap is the Arabic itself and how much is the dense
-regex and Unicode ranges surrounding it is not something these numbers can
-separate, so no multiplier is claimed here. Run the script on your own content
-if you need that figure.
+This section previously carried character-ratio estimates and a claim that
+Arabic costs about 1.6× English. Measuring produced two corrections, in
+opposite directions, and both are worth stating.
+
+**The estimates were low by 33–57% on every row.** The assumed ratio for
+English prose was 3.9 chars/token against ~2.99 actual, and English is most of
+these files, so the miss was systematic rather than random. Published as fact,
+that table would have told readers the skill was a third to a half cheaper than
+it is.
+
+**The Arabic multiplier was understated, not overstated.** Isolating pure
+samples on the same endpoint and model:
+
+| Sample | ch/tok |
+|---|---|
+| English prose | 3.50 |
+| JS code, zero Arabic | 2.27 |
+| **Arabic prose** | **1.47** |
+| Raw Unicode-range regex (`[؀-ۿ]`) | 1.16 |
+| The same ranges as `\uXXXX` escapes | 1.52 |
+
+Arabic prose costs **≈2.4× more tokens per character** than English prose, not
+1.6×.
+
+**But file-level ch/tok in this repo is driven by code-versus-prose, not by
+Arabic.** No file here is more than 5% Arabic by character count. `probe-rtl.js`
+sits at 2.19 and `probe-focus.js`, which contains no Arabic at all, sits at
+2.17 — the same band. Reading a low ch/tok as an Arabic signal would be
+comparing code against prose and calling the difference language.
+
+The two-rate model reconciles: `probe-rtl.js` is 17,798 non-Arabic characters
+at 2.27 plus 915 Arabic at 1.47, predicting 8,462 tokens against 8,532
+measured — **0.8% off**, which is what makes both rates credible rather than
+coincidental.
+
+*Sample size, honestly:* the 2.4× figure comes from one matched prose pair of
+roughly 600–700 characters in the same register, on one model. The
+reconciliation above is independent corroboration on entirely different text
+(word lists rather than prose), which is why it is published at all — but treat
+2.4× as the right order of magnitude rather than a constant.
+
+*And a finding with no payoff here:* raw Unicode ranges are the most expensive
+construct measured, and writing them as `\uXXXX` escapes tokenises ~30%
+cheaper despite being longer in characters. Across all eight probes only 48
+characters sit inside raw ranges — about 41 tokens. Measured before
+refactoring, which is how a pointless refactor gets avoided.
 
 ### Roughly what one audit costs
 
