@@ -38,12 +38,18 @@ interaction-state coverage read from the stylesheets, and microcopy presence.
 **Semantic**, via a guided reading pass — the defects no automated tool detects
 because they require understanding what the words mean:
 
-- placeholder copy shipped to production (`"traditional description for the premium plan"`)
+- placeholder copy shipped to production (`"traditional description for the premium plan"`, and lorem ipsum in the other locale)
 - marketing claims the product cannot fulfil (a template's "live instructor sessions" on a product with no instructors)
 - internal contradictions (a $19 tier advertising a *lower* limit than the $8 tier)
 - product naming that drifts between screens and locales
 - empty states with no way out
 - a headline onboarding promise with no entry point in the app
+
+Each of those is then traced to its source in the data layer, because that is
+what decides who fixes it: a rendered value that matches the API is a content
+bug, one that differs is a rendering bug, and a value sitting in the response
+that the UI never displays is a missing feature with the hard part already
+done — usually the cheapest win in a report.
 
 **Localisation, in both directions.** An RTL engine and an LTR engine, plus a
 parity pass for bilingual products — the defect class that exists only in the

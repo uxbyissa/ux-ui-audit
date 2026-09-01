@@ -94,7 +94,9 @@ aimed at pages you already know are interesting.
    whether emphasis matches task priority, and first aesthetic impression
    cannot be derived from the DOM; assess them here, and say that you did.
 8. **Reading pass** — the protocol below.
-9. **Reproduction** — re-test anything that looked intermittent.
+9. **Data-layer check** — for anything the reading pass flagged as contradictory
+   or missing, find its source. See below.
+10. **Reproduction** — re-test anything that looked intermittent.
 
 ### Running the probes
 
@@ -147,7 +149,9 @@ they do not, this is not a copy nit — a paid page promising things the product
 cannot deliver is a commercial and legal exposure, and it should be the first
 finding in the report.
 
-**Look for internal contradictions.** Two numbers for the same thing on one
+**Look for internal contradictions**, then go find the source of each — the
+data-layer section below explains why that single extra step decides whether a
+finding gets fixed or debated. Two numbers for the same thing on one
 card. A premium tier with a lower limit than the cheaper tier. A label that says
 one thing and a destination that does another. These survive because each half
 was written by a different person on a different day.
@@ -168,6 +172,36 @@ user do next, and can they do it from here?
 find the upload control. Count the taps. When the headline promise has no entry
 point on the main screen, that is usually the highest-impact finding in the
 whole audit and no automated tool will ever surface it.
+
+## Go to the data layer
+
+When the reading pass turns up a contradiction, a suspicious number, or a
+section that looks empty, do not stop at the rendered text. Find where that
+value comes from — the API response the page fetched, the RSC or `__NEXT_DATA__`
+payload, the config the component read. The network panel, or a `fetch` of the
+same endpoint from the page, usually gets you there in one step.
+
+Two reasons this is worth the extra minute.
+
+**A number from the source cannot be argued with.** "The premium tier shows 10
+where the cheaper one shows 20" invites a discussion about whether you misread
+the layout. `premium → dailyQuizzes: 10` next to `plus → dailyQuizzes: 20`, read
+from the response the page itself requested, ends the discussion.
+
+**It tells you which team owns the bug**, which is the difference between a
+finding that gets fixed and one that gets passed around:
+
+- Rendered value **matches** the data → the data is wrong. Content or backend.
+- Rendered value **differs** from the data → the rendering is wrong. Frontend.
+- The data holds something the UI **never shows** → a missing feature, and
+  usually the cheapest fix in the whole report, because the hard part is
+  already done. A localised price sitting unused in the response while the page
+  displays only USD is worth more to the team than most defects you will find.
+
+Report the source value alongside the rendered one. That pairing is the finding.
+
+**Stay read-only.** Follow GET endpoints the page already called; never issue a
+write, and never replay a request that mutates state to see what it returns.
 
 ## Intermittent defects
 
