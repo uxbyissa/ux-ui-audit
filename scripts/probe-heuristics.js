@@ -213,7 +213,7 @@
     distinctFontWeights: { count: fontWeights.size, values: top(fontWeights, 8) },
     distinctFontFamilies: { count: families.size, values: top(families, 6) },
     distinctSpacingValues: { count: spacing.size, verdict: verdict(spacing.size, 14, "spacing"), values: top(spacing) },
-    distinctBorderRadii: { count: radii.size, verdict: verdict(radii.size, 6, "radius"), values: top(radii, 8) },
+    distinctBorderRadii: { count: radii.size, verdict: verdict(radii.size, 6, "radius"), values: top(radii, 8).map((v) => (parseFloat(v) > 500 ? "pill " + v.replace(/^[^ ]+/, "") : v)) },
     distinctTextColors: { count: colors.size, verdict: verdict(colors.size, 8, "text-colour"), values: top(colors) },
     usesCustomProperties: (() => {
       try {

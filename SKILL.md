@@ -70,7 +70,8 @@ aimed at pages you already know are interesting.
 1. **Route sweep** — `probe-routes.js` on the main navigation surface. Gives you
    the app's map, plus dead links and mislabelled destinations for free.
 2. **Structural probe** — `probe-core.js` on every significant page.
-3. **Heuristics probe** — `probe-heuristics.js` on the primary task screens.
+3. **Heuristics and perception probes** — `probe-heuristics.js` and
+   `probe-perception.js` on the primary task screens.
    Run it at the viewport the product is actually used at: Fitts distances and
    first-screen counts are viewport-dependent, so a mobile-first product
    measured at desktop width gives numbers that describe nobody.
@@ -95,6 +96,9 @@ string.
 - `scripts/probe-heuristics.js` — Hick's Law and cognitive load, Fitts's Law
   and reachability, design-system conformance, interaction-state coverage,
   microcopy and error tolerance, the structural half of visual hierarchy
+- `scripts/probe-perception.js` — Gestalt proximity and similarity, grid
+  alignment, Miller chunking, Doherty response timing, emphasis inflation,
+  clickability affordance, input constraints, top-of-screen real estate
 - `scripts/probe-rtl.js` — the Arabic/RTL engine
 - `scripts/probe-focus.js` — focus indicator; **requires a real Tab keypress
   first**, because programmatic `.focus()` does not trigger `:focus-visible` and

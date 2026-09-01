@@ -89,12 +89,15 @@ ux-ui-audit/
 │   ├── probe-core.js             contrast, targets, names, structure, SEO, perf
 │   ├── probe-heuristics.js       Hick, Fitts, design-system conformance,
 │   │                             interaction states, microcopy, hierarchy
+│   ├── probe-perception.js       Gestalt proximity/similarity, grid alignment,
+│   │                             chunking, response timing, emphasis, affordance
 │   ├── probe-rtl.js              the Arabic / RTL engine
 │   ├── probe-focus.js            focus indicator (needs a real Tab keypress)
 │   └── probe-routes.js           destination sweep and label/href mismatches
 └── references/
     ├── foundations.md            standards, heuristics, house conventions, scope
     ├── evaluation-matrix.md      criteria → reference → how each is measured
+    ├── reading-list.md           source texts, criteria drawn, measuring layer
     ├── arabic-rtl.md             plural forms, registers, bidi, RTL typography
     ├── wcag-thresholds.md        criteria, numbers, probe field mapping
     └── report-template.md        a full worked report
